@@ -1,0 +1,15 @@
+# Sphinx 构建产物
+build/
+
+# Python
+.venv/
+__pycache__/
+*.pyc
+*.pyo
+*.egg-info/
+
+# 编辑器 / 系统
+.DS_Store
+.idea/
+.vscode/
+*.swp
