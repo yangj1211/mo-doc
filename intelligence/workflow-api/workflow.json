@@ -1,0 +1,617 @@
+{
+	"name": "abc",
+	"branch_name": "主要",
+	"source_volume_names": ["common-source"],
+	"source_volume_ids": ["1928289263191314432"],
+	"target_volume_name": "test-process-mode",
+	"target_volume_id": "1c2e9501-298c-4a8e-8e82-6482819c5cdd",
+	"create_target_volume_name": "",
+	"process_mode": {
+		"interval": 0,
+		"offset": 0
+	},
+	"file_types": [1, 2, 4, 5, 6, 11, 12],
+	"priority": 300,
+	"workflow": {
+		"components": [{
+			"name": "PlainToDocument",
+			"type": "byoa.integrations.components.converters.enhanced_plain_to_document.EnhancedPlainToDocument",
+			"component_id": "PlainToDocument_1749126721750",
+			"intro": "PlainToDocument",
+			"position": {
+				"x": 0,
+				"y": 0
+			},
+			"input_keys": {},
+			"output_keys": {},
+			"init_parameters": {},
+			"extra_node_info": {
+				"name": "文档解析节点",
+				"description": ""
+			}
+		}, {
+			"name": "PDFToDocument",
+			"type": "byoa.integrations.components.converters.magic_pdf_to_document.MagicPDFToDocument",
+			"component_id": "PDFToDocument_1749126721750",
+			"intro": "PDFToDocument",
+			"position": {
+				"x": 0,
+				"y": 0
+			},
+			"input_keys": {},
+			"output_keys": {},
+			"init_parameters": {
+				"image_process_types": ["caption", "ocr"]
+			}
+		}, {
+			"name": "DOCXToDocument",
+			"type": "byoa.integrations.components.converters.enhanced_docx_to_document.EnhancedDOCXToDocument",
+			"component_id": "DOCXToDocument_1749126721750",
+			"intro": "DOCXToDocument",
+			"position": {
+				"x": 0,
+				"y": 0
+			},
+			"input_keys": {},
+			"output_keys": {},
+			"init_parameters": {
+				"image_process_types": ["caption", "ocr"]
+			}
+		}, {
+			"name": "PPTXToDocument",
+			"type": "byoa.integrations.components.converters.enhanced_pptx_to_document.EnhancedPPTXToDocument",
+			"component_id": "PPTXToDocument_1749126721750",
+			"intro": "PPTXToDocument",
+			"position": {
+				"x": 0,
+				"y": 0
+			},
+			"input_keys": {},
+			"output_keys": {},
+			"init_parameters": {
+				"image_process_types": ["caption", "ocr"]
+			}
+		}, {
+			"name": "ImageToDocument",
+			"type": "byoa.integrations.components.converters.image_to_document.ImageToDocument",
+			"component_id": "ImageToDocument_1749126721750",
+			"intro": "ImageToDocument",
+			"position": {
+				"x": 0,
+				"y": 0
+			},
+			"input_keys": {},
+			"output_keys": {},
+			"init_parameters": {
+				"image_process_types": ["ocr", "caption"]
+			},
+			"extra_node_info": {
+				"name": "图片解析节点",
+				"description": ""
+			}
+		}, {
+			"name": "AudioToDocument",
+			"type": "byoa.integrations.components.converters.audio_to_document.AudioToDocument",
+			"component_id": "AudioToDocument_1749126721750",
+			"intro": "AudioToDocument",
+			"position": {
+				"x": 0,
+				"y": 0
+			},
+			"input_keys": {},
+			"output_keys": {},
+			"init_parameters": {
+				"asr_model": "sensevoice-v1",
+				"enable_noise_reduction": false,
+				"enable_speaker_diarization": false,
+				"max_segment_duration": 30,
+				"min_silence_duration": 0.5
+			},
+			"extra_node_info": {
+				"name": "音频解析节点",
+				"description": ""
+			}
+		}, {
+			"name": "VideoToDocument",
+			"type": "byoa.integrations.components.converters.video_to_document.VideoToDocument",
+			"component_id": "VideoToDocument_1749126721750",
+			"intro": "VideoToDocument",
+			"position": {
+				"x": 0,
+				"y": 0
+			},
+			"input_keys": {},
+			"output_keys": {},
+			"init_parameters": {
+				"asr_model": "sensevoice-v1",
+				"enable_noise_reduction": false,
+				"enable_speaker_diarization": false,
+				"max_segment_duration": 60,
+				"min_silence_duration": 1
+			},
+			"extra_node_info": {
+				"name": "视频解析节点",
+				"description": ""
+			}
+		}, {
+			"name": "DocumentCleaner",
+			"type": "byoa.integrations.components.cleaner.moi_document_cleaner.MoiDocumentCleaner",
+			"component_id": "DocumentCleaner_1749126721750",
+			"intro": "DocumentCleaner",
+			"position": {
+				"x": 0,
+				"y": 0
+			},
+			"input_keys": {},
+			"output_keys": {},
+			"init_parameters": {
+				"switch_deduplication": false,
+				"switch_special_char_filter": false,
+				"switch_special_char_remove": false,
+				"switch_text_standardization": false,
+				"deduplication_by_md5": false,
+				"deduplication_by_similarity": false,
+				"deduplication_ngram_ratio": 0.5,
+				"filter_special_char_ratio": 0.5,
+				"remove_html_labels": false,
+				"remove_invisible_char": false,
+				"remove_persional_message": false,
+				"remove_sensitive_words": false,
+				"remove_url": false,
+				"traditional_chinese_to_simple": false,
+				"unicode_normalization": false
+			},
+			"extra_node_info": {
+				"name": "数据清洗节点",
+				"description": ""
+			}
+		}, {
+			"name": "DataAugmentation",
+			"type": "byoa.integrations.components.data_augmentation.DataAugmentation",
+			"component_id": "DataAugmentation_1749126721750",
+			"intro": "DataAugmentation",
+			"position": {
+				"x": 0,
+				"y": 0
+			},
+			"input_keys": {},
+			"output_keys": {},
+			"init_parameters": {
+				"categories": null,
+				"json_num_per_block": 10,
+				"json_schema_str": {
+					"instruction": "翻译成法语",
+					"input": "Hello",
+					"output": "Bonjour"
+				},
+				"keyword_count": 5,
+				"type": "general",
+				"use_document_count": 30
+			},
+			"extra_node_info": {
+				"name": "数据增强节点",
+				"description": ""
+			}
+		}, {
+			"name": "FileRouterComponent",
+			"type": "haystack.components.routers.file_type_router.FileTypeRouter",
+			"component_id": "FileTypeRouter_1749126721750",
+			"intro": "FileTypeRouter",
+			"position": {
+				"x": 0,
+				"y": 0
+			},
+			"input_keys": {},
+			"output_keys": {},
+			"init_parameters": {
+				"additional_mimetypes": null,
+				"mime_types": ["text/plain", "text/markdown", "image/.*", "audio/.*", "video/.*", "application/pdf", "application/vnd.openxmlformats-officedocument.wordprocessingml.document", "application/vnd.openxmlformats-officedocument.presentationml.presentation"]
+			}
+		}, {
+			"name": "DocumentJoiner",
+			"type": "haystack.components.joiners.document_joiner.DocumentJoiner",
+			"component_id": "DocumentJoiner_1749126721750",
+			"intro": "DocumentJoiner",
+			"position": {
+				"x": 0,
+				"y": 0
+			},
+			"input_keys": {},
+			"output_keys": {},
+			"init_parameters": {
+				"join_mode": "concatenate",
+				"sort_by_score": true,
+				"top_k": null,
+				"weights": null
+			}
+		}, {
+			"name": "MetadataRouter",
+			"type": "haystack.components.routers.metadata_router.MetadataRouter",
+			"component_id": "MetadataRouter_1749126721750",
+			"intro": "MetadataRouter",
+			"position": {
+				"x": 0,
+				"y": 0
+			},
+			"input_keys": {},
+			"output_keys": {},
+			"init_parameters": {
+				"rules": {
+					"image_caption": {
+						"operator": "AND",
+						"conditions": [{
+							"field": "meta.content_type",
+							"operator": "==",
+							"value": "image"
+						}, {
+							"field": "meta.process_type",
+							"operator": "==",
+							"value": "caption"
+						}]
+					},
+					"image_ocr": {
+						"operator": "AND",
+						"conditions": [{
+							"field": "meta.content_type",
+							"operator": "==",
+							"value": "image"
+						}, {
+							"field": "meta.process_type",
+							"operator": "==",
+							"value": "ocr"
+						}]
+					},
+					"text": {
+						"operator": "AND",
+						"conditions": [{
+							"field": "meta.content_type",
+							"operator": "==",
+							"value": "text"
+						}]
+					}
+				}
+			}
+		}, {
+			"name": "DocumentJoiner-Mate",
+			"type": "haystack.components.joiners.document_joiner.DocumentJoiner",
+			"component_id": "DocumentJoiner_1749126721750",
+			"intro": "DocumentJoiner",
+			"position": {
+				"x": 0,
+				"y": 0
+			},
+			"input_keys": {},
+			"output_keys": {},
+			"init_parameters": {
+				"join_mode": "concatenate",
+				"sort_by_score": true,
+				"top_k": null,
+				"weights": null
+			}
+		}, {
+			"name": "DocumentSplitter",
+			"type": "byoa.integrations.components.enhance_document_splitter.EnhancedDocumentSplitter",
+			"component_id": "DocumentSplitter_1749126721750",
+			"intro": "DocumentSplitter",
+			"position": {
+				"x": 0,
+				"y": 0
+			},
+			"input_keys": {},
+			"output_keys": {},
+			"init_parameters": {
+				"split_unit": "char",
+				"split_length": 800,
+				"split_overlap": 0
+			}
+		}, {
+			"name": "ImageOCRToDocument",
+			"type": "byoa.integrations.components.converters.image_ocr_to_document.ImageOCRToDocument",
+			"component_id": "ImageOCRToDocument_1749126721751",
+			"intro": "ImageOCRToDocument",
+			"position": {
+				"x": 0,
+				"y": 0
+			},
+			"input_keys": {},
+			"output_keys": {},
+			"init_parameters": {
+				"model": "stepfun-ai/GOT-OCR2_0",
+				"tokenizer": "stepfun-ai/GOT-OCR2_0"
+			}
+		}, {
+			"name": "DocumentSplitter-ImageOCR",
+			"type": "byoa.integrations.components.enhance_document_splitter.EnhancedDocumentSplitter",
+			"component_id": "DocumentSplitter_1749126721751",
+			"intro": "DocumentSplitter",
+			"position": {
+				"x": 0,
+				"y": 0
+			},
+			"input_keys": {},
+			"output_keys": {},
+			"init_parameters": {
+				"split_unit": "char",
+				"split_length": 800,
+				"split_overlap": 0
+			}
+		}, {
+			"name": "DocumentCleaner-ImageOCR",
+			"type": "byoa.integrations.components.cleaner.moi_document_cleaner.MoiDocumentCleaner",
+			"component_id": "DocumentCleaner_1749126721751",
+			"intro": "DocumentCleaner",
+			"position": {
+				"x": 0,
+				"y": 0
+			},
+			"input_keys": {},
+			"output_keys": {},
+			"init_parameters": {
+				"switch_deduplication": false,
+				"switch_special_char_filter": false,
+				"switch_special_char_remove": false,
+				"switch_text_standardization": false,
+				"deduplication_by_md5": false,
+				"deduplication_by_similarity": false,
+				"deduplication_ngram_ratio": 0.5,
+				"filter_special_char_ratio": 0.5,
+				"remove_html_labels": false,
+				"remove_invisible_char": false,
+				"remove_persional_message": false,
+				"remove_sensitive_words": false,
+				"remove_url": false,
+				"traditional_chinese_to_simple": false,
+				"unicode_normalization": false
+			},
+			"extra_node_info": {
+				"name": "数据清洗节点",
+				"description": ""
+			}
+		}, {
+			"name": "ImageCaptionToDocument",
+			"type": "byoa.integrations.components.converters.image_caption_to_document.ImageCaptionToDocument",
+			"component_id": "ImageCaptionToDocument_1749126721751",
+			"intro": "ImageCaptionToDocument",
+			"position": {
+				"x": 0,
+				"y": 0
+			},
+			"input_keys": {},
+			"output_keys": {},
+			"init_parameters": {}
+		}, {
+			"name": "DocumentSplitter-ImageCaption",
+			"type": "byoa.integrations.components.enhance_document_splitter.EnhancedDocumentSplitter",
+			"component_id": "DocumentSplitter_1749126721751",
+			"intro": "DocumentSplitter",
+			"position": {
+				"x": 0,
+				"y": 0
+			},
+			"input_keys": {},
+			"output_keys": {},
+			"init_parameters": {
+				"split_unit": "char",
+				"split_length": 800,
+				"split_overlap": 0
+			}
+		}, {
+			"name": "DocumentCleaner-ImageCaption",
+			"type": "byoa.integrations.components.cleaner.moi_document_cleaner.MoiDocumentCleaner",
+			"component_id": "DocumentCleaner_1749126721751",
+			"intro": "DocumentCleaner",
+			"position": {
+				"x": 0,
+				"y": 0
+			},
+			"input_keys": {},
+			"output_keys": {},
+			"init_parameters": {
+				"switch_deduplication": false,
+				"switch_special_char_filter": false,
+				"switch_special_char_remove": false,
+				"switch_text_standardization": false,
+				"deduplication_by_md5": false,
+				"deduplication_by_similarity": false,
+				"deduplication_ngram_ratio": 0.5,
+				"filter_special_char_ratio": 0.5,
+				"remove_html_labels": false,
+				"remove_invisible_char": false,
+				"remove_persional_message": false,
+				"remove_sensitive_words": false,
+				"remove_url": false,
+				"traditional_chinese_to_simple": false,
+				"unicode_normalization": false
+			},
+			"extra_node_info": {
+				"name": "数据清洗节点",
+				"description": ""
+			}
+		}, {
+			"name": "PythonExecutor",
+			"type": "byoa.integrations.components.python_executor.PythonExecutor",
+			"component_id": "PythonExecutor_1749126721751",
+			"intro": "PythonExecutor",
+			"position": {
+				"x": 0,
+				"y": 0
+			},
+			"input_keys": {},
+			"output_keys": {},
+			"init_parameters": {
+				"python_code": ""
+			}
+		}, {
+			"name": "DocumentEmbedder",
+			"type": "haystack.components.embedders.openai_document_embedder.OpenAIDocumentEmbedder",
+			"component_id": "DocumentEmbedder_1749126721751",
+			"intro": "DocumentEmbedder",
+			"position": {
+				"x": 0,
+				"y": 0
+			},
+			"input_keys": {},
+			"output_keys": {},
+			"init_parameters": {
+				"api_base_url": "",
+				"api_key": {
+					"env_vars": ["OPENAI_API_KEY"],
+					"strict": true,
+					"type": "env_var"
+				},
+				"batch_size": 32,
+				"dimensions": null,
+				"embedding_separator": "\n",
+				"meta_fields_to_embed": [],
+				"model": "",
+				"organization": null,
+				"prefix": "",
+				"progress_bar": true,
+				"suffix": ""
+			}
+		}, {
+			"name": "DocumentContentImageFiller",
+			"type": "byoa.integrations.components.converters.document_content_image_filler.DocumentContentImageFiller",
+			"component_id": "DocumentContentImageFiller_1749126721751",
+			"intro": "DocumentContentImageFiller",
+			"position": {
+				"x": 0,
+				"y": 0
+			},
+			"input_keys": {},
+			"output_keys": {},
+			"init_parameters": {}
+		}, {
+			"name": "DocumentWriter",
+			"type": "haystack.components.writers.document_writer.DocumentWriter",
+			"component_id": "DocumentWriter_1749126721751",
+			"intro": "DocumentWriter",
+			"position": {
+				"x": 0,
+				"y": 0
+			},
+			"input_keys": {},
+			"output_keys": {},
+			"init_parameters": {
+				"document_store": {
+					"init_parameters": {
+						"connection_string": {
+							"env_vars": ["DATABASE_SYNC_URI"],
+							"strict": true,
+							"type": "env_var"
+						},
+						"embedding_dimension": 1024,
+						"keyword_index_name": "haystack_keyword_index",
+						"recreate_table": true,
+						"table_name": "embedding_results",
+						"vector_function": "cosine_similarity"
+					},
+					"type": "byoa.integrations.document_stores.mo_document_store.MOIDocumentStore"
+				},
+				"policy": "NONE"
+			}
+		}],
+		"connections": [{
+			"sender": "FileRouterComponent.text/plain",
+			"receiver": "PlainToDocument.sources"
+		}, {
+			"sender": "FileRouterComponent.text/markdown",
+			"receiver": "PlainToDocument.sources"
+		}, {
+			"sender": "PlainToDocument.documents",
+			"receiver": "DocumentJoiner.documents"
+		}, {
+			"sender": "FileRouterComponent.application/pdf",
+			"receiver": "PDFToDocument.sources"
+		}, {
+			"sender": "PDFToDocument.documents",
+			"receiver": "DocumentJoiner.documents"
+		}, {
+			"sender": "FileRouterComponent.application/vnd.openxmlformats-officedocument.wordprocessingml.document",
+			"receiver": "DOCXToDocument.sources"
+		}, {
+			"sender": "DOCXToDocument.documents",
+			"receiver": "DocumentJoiner.documents"
+		}, {
+			"sender": "FileRouterComponent.application/vnd.openxmlformats-officedocument.presentationml.presentation",
+			"receiver": "PPTXToDocument.sources"
+		}, {
+			"sender": "PPTXToDocument.documents",
+			"receiver": "DocumentJoiner.documents"
+		}, {
+			"sender": "FileRouterComponent.image/.*",
+			"receiver": "ImageToDocument.sources"
+		}, {
+			"sender": "ImageToDocument.documents",
+			"receiver": "DocumentJoiner.documents"
+		}, {
+			"sender": "FileRouterComponent.audio/.*",
+			"receiver": "AudioToDocument.sources"
+		}, {
+			"sender": "AudioToDocument.documents",
+			"receiver": "DocumentJoiner.documents"
+		}, {
+			"sender": "FileRouterComponent.video/.*",
+			"receiver": "VideoToDocument.sources"
+		}, {
+			"sender": "VideoToDocument.documents",
+			"receiver": "DocumentJoiner.documents"
+		}, {
+			"sender": "DocumentJoiner.documents",
+			"receiver": "MetadataRouter.documents"
+		}, {
+			"sender": "MetadataRouter.text",
+			"receiver": "DocumentSplitter.documents"
+		}, {
+			"sender": "DocumentSplitter.documents",
+			"receiver": "DocumentCleaner.documents"
+		}, {
+			"sender": "DocumentCleaner.documents",
+			"receiver": "DocumentJoiner-Mate.documents"
+		}, {
+			"sender": "MetadataRouter.image_ocr",
+			"receiver": "ImageOCRToDocument.documents"
+		}, {
+			"sender": "ImageOCRToDocument.documents",
+			"receiver": "DocumentSplitter-ImageOCR.documents"
+		}, {
+			"sender": "DocumentSplitter-ImageOCR.documents",
+			"receiver": "DocumentCleaner-ImageOCR.documents"
+		}, {
+			"sender": "DocumentCleaner-ImageOCR.documents",
+			"receiver": "DocumentJoiner-Mate.documents"
+		}, {
+			"sender": "MetadataRouter.image_caption",
+			"receiver": "ImageCaptionToDocument.documents"
+		}, {
+			"sender": "ImageCaptionToDocument.documents",
+			"receiver": "DocumentSplitter-ImageCaption.documents"
+		}, {
+			"sender": "DocumentSplitter-ImageCaption.documents",
+			"receiver": "DocumentCleaner-ImageCaption.documents"
+		}, {
+			"sender": "DocumentCleaner-ImageCaption.documents",
+			"receiver": "DocumentJoiner-Mate.documents"
+		}, {
+			"sender": "DocumentJoiner-Mate.documents",
+			"receiver": "PythonExecutor.documents"
+		}, {
+			"sender": "PythonExecutor.documents",
+			"receiver": "DocumentEmbedder.documents"
+		}, {
+			"sender": "DocumentEmbedder.documents",
+			"receiver": "DocumentContentImageFiller.documents"
+		}, {
+			"sender": "DocumentContentImageFiller.documents",
+			"receiver": "DocumentWriter.documents"
+		}, {
+			"sender": "DocumentWriter.documents_written",
+			"receiver": "DataAugmentation.count"
+		}],
+		"edges": [],
+		"extra_components": [],
+		"moi_workflow": [{
+			"description": ""
+		}]
+	}
+}
