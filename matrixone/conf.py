@@ -1,7 +1,18 @@
-project = "MatrixOne 文档"
+"""MatrixOne 文档(中英共用 conf.py)
+
+源内容分别在 source/zh 与 source/en;sphinx-build 的位置参数指定走哪一套。
+通过 SPHINX_LANG 环境变量(zh_CN | en)切换 language 与品牌标题,
+Makefile 会在调用前 export SPHINX_LANG。
+"""
+import os
+
+_lang = os.environ.get("SPHINX_LANG", "zh_CN")
+
+project = "MatrixOne Docs" if _lang == "en" else "MatrixOne 文档"
+html_title = project
 author = "MatrixOne"
 copyright = "2026, MatrixOne"
-language = "zh_CN"
+language = _lang
 
 extensions = [
     "myst_parser",
@@ -25,20 +36,25 @@ exclude_patterns = ["_build", "Thumbs.db", ".DS_Store"]
 
 suppress_warnings = [
     "misc.highlighting_failure",
-    # demo 只迁移了 Release-Notes / Overview / FAQs 三个目录，
-    # 这些目录内会有指向未迁移章节（Deploy / Reference / Maintain / Develop 等）的链接。
-    # 不作为 build 噪音处理；研发做全量迁移时取消这两行即可逐个审。
     "myst.xref_missing",
     "myst.header",
 ]
 
 html_theme = "furo"
-html_title = "MatrixOne 文档"
-html_static_path = ["_static"]
+html_static_path = ["source/_static"]
+templates_path = ["source/_templates"]
 html_css_files = ["css/custom.css"]
-html_js_files = ["js/topbar.js", "js/breadcrumb.js", "js/feedback.js", "js/footer.js", "js/mo-highlight.js", "js/assistant.js", "js/lang-switcher.js"]
+html_js_files = [
+    "js/topbar.js",
+    "js/breadcrumb.js",
+    "js/feedback.js",
+    "js/footer.js",
+    "js/mo-highlight.js",
+    "js/assistant.js",
+    "js/lang-switcher.js",
+    "js/version-switcher.js",
+]
 
-# demo 不需要暴露 Markdown 源文件入口（也避免 python http.server 的 .txt charset 坑）
 html_show_sourcelink = False
 html_copy_source = False
 

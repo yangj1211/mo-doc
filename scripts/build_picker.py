@@ -5,7 +5,7 @@
 设计：
   - 自包含 HTML（内联 CSS），不依赖 Sphinx 主题资源，简单稳定。
   - 两张产品卡片 / 大间距 / 渐变品牌色 / 暗色模式自适应。
-  - 卡片点击进入 /matrixone/ 或 /intelligence/，由那一层 redirect 选语言。
+  - 卡片点击进入 /matrixone/ 或 /matrixone-intelligence/，由那一层 redirect 选语言。
   - 浏览器语言英文时把页面文案切到英文版（matrixone 卡片描述词同步）。
 
 用法：
@@ -198,7 +198,7 @@ HTML = """<!doctype html>
         </span>
       </a>
 
-      <a class="card card--moi" href="/intelligence/">
+      <a class="card card--moi" href="/matrixone-intelligence/">
         <span class="card__sub">AI 平台</span>
         <h2 class="card__title">MatrixOne Intelligence</h2>
         <p class="card__desc" data-i18n="moiDesc">

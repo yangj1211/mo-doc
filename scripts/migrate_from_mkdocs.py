@@ -8,7 +8,7 @@
   - /Users/admin/project/moi/official_website/matrixorigin.io.cn/docs/
 
 输出：
-  - /Users/admin/project/moi/docs-demo/matrixone/<section>/...   (中文)
+  - /Users/admin/project/moi/docs-demo/matrixone/source/zh/<section>/...   (中文)
   - 每个 section 根下生成 index.md，按 mkdocs nav 的分组生成 toctree
   - 把整个 docs/MatrixOne/images 拷过来，相对路径还能 resolve
 """
@@ -21,7 +21,7 @@ SRC_REPO = Path('/Users/admin/project/moi/official_website/matrixorigin.io.cn')
 MKDOCS_YML = SRC_REPO / 'mkdocs.yml'
 SRC_DOCS = SRC_REPO / 'docs'
 
-DST_ROOT = Path('/Users/admin/project/moi/docs-demo/matrixone')
+DST_ROOT = Path('/Users/admin/project/moi/docs-demo/matrixone/source/zh')
 
 # nav 顶层中文分组 → 目标目录
 SECTION_DIR = {

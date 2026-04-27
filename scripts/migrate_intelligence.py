@@ -1,18 +1,18 @@
 #!/usr/bin/env python3
 """
-将 moc-docs (mkdocs) 全量内容迁移到 docs-demo/intelligence/。
+将 moc-docs (mkdocs) 全量内容迁移到 docs-demo/matrixone-intelligence/source/zh/。
 
 前置：
-  - 已经 cp -R moc-docs/docs/MatrixOne-Intelligence/ → docs-demo/intelligence/
-  - 已经 mv "intelligence/workflow api" → "intelligence/workflow-api"
+  - 已经 cp -R moc-docs/docs/MatrixOne-Intelligence/ → docs-demo/matrixone-intelligence/source/zh/
+  - 已经 mv "matrixone-intelligence/source/zh/workflow api" → "matrixone-intelligence/source/zh/workflow-api"
 
 本脚本完成的事：
-  1. 把 intelligence/**/*.md 里的 MkDocs 专属语法转 MyST
+  1. 把 matrixone-intelligence/source/zh/**/*.md 里的 MkDocs 专属语法转 MyST
        - !!! note "Title" + 缩进块  →  :::{note} Title ... :::
        - === "Tab"     + 缩进块  →  ::::{tab-set} :::{tab-item} Tab ::: ::::
        - workflow api/ / workflow%20api/  →  workflow-api/
   2. 解析 moc-docs/mkdocs.yml 的 nav，按顶层分组生成 section index.md
-  3. 生成 intelligence/index.md（hero + 入口卡片 + 隐藏 toctree）
+  3. 生成 matrixone-intelligence/source/zh/index.md（hero + 入口卡片 + 隐藏 toctree）
 
 设计取舍：
   - 文件保留 moc-docs 原始大小写（App-Develop / Workspace-Mgmt 等不动），
@@ -26,7 +26,7 @@ import sys
 from pathlib import Path
 import yaml
 
-ROOT = Path('/Users/admin/project/moi/docs-demo/intelligence')
+ROOT = Path('/Users/admin/project/moi/docs-demo/matrixone-intelligence/source/zh')
 MKDOCS_YML = Path('/Users/admin/project/moi/doc/moc-docs/mkdocs.yml')
 
 

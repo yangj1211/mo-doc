@@ -16,8 +16,8 @@
        en→zh 永远显示（中文站是全集）。 */
   var HAS_EN = { matrixone: true };
   var PARTIAL_EN = {
-    intelligence: [
-      '',                                                  /* 主页 /intelligence/zh/      */
+    'matrixone-intelligence': [
+      '',                                                  /* 主页 /matrixone-intelligence/zh/ */
       'index.html',
       'Get-Started/quickstart.html',
       'Overview/matrixone-intelligence-introduction.html',
