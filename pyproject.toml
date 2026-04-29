@@ -10,4 +10,5 @@ dependencies = [
     "sphinx-copybutton>=0.5.2",
     "sphinx-design>=0.6.0",
     "jieba>=0.42.1",
+    "anthropic>=0.40.0",
 ]

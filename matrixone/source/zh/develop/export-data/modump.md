@@ -53,96 +53,103 @@ MatrixOne 支持以下两种方式导出数据：
 
 - macOS 下安装
 
-=== "**下载方式一：`wget` 工具下载二进制包**"
+:::::{tab-set}
 
-     x86 架构系统安装包：
+::::{tab-item} **下载方式一：`wget` 工具下载二进制包**
+ x86 架构系统安装包：
 
-     ```
-     wget https://github.com/matrixorigin/mo_dump/releases/download/1.0.0/mo-dump-1.0.0-darwin-x86_64.zip
-     unzip mo-dump-1.0.0-darwin-x86_64.zip
-     ```
+ ```
+ wget https://github.com/matrixorigin/mo_dump/releases/download/1.0.0/mo-dump-1.0.0-darwin-x86_64.zip
+ unzip mo-dump-1.0.0-darwin-x86_64.zip
+ ```
 
-     ARM 架构系统安装包：
+ ARM 架构系统安装包：
 
-     ```
-     wget https://github.com/matrixorigin/mo_dump/releases/download/1.0.0/mo-dump-1.0.0-darwin-arm64.zip
-     unzip mo-dump-1.0.0-darwin-arm64.zip
-     ```
+ ```
+ wget https://github.com/matrixorigin/mo_dump/releases/download/1.0.0/mo-dump-1.0.0-darwin-arm64.zip
+ unzip mo-dump-1.0.0-darwin-arm64.zip
+ ```
 
-    如 github 原地址下载过慢，您可尝试从以下地址下载镜像包：
+如 github 原地址下载过慢，您可尝试从以下地址下载镜像包：
 
-    ```
-    wget  https://githubfast.com/matrixorigin/mo_dump/releases/download/1.0.0/mo-dump-1.0.0-darwin-xxx.zip
-    ```
-=== "**下载方式二：`curl` 工具下载二进制包**"
+```
+wget  https://githubfast.com/matrixorigin/mo_dump/releases/download/1.0.0/mo-dump-1.0.0-darwin-xxx.zip
+```
+::::
 
-     x86 架构系统安装包：
+::::{tab-item} **下载方式二：`curl` 工具下载二进制包**
+ x86 架构系统安装包：
 
-     ```
-     curl -OL https://github.com/matrixorigin/mo_dump/releases/download/1.0.0/mo-dump-1.0.0-darwin-x86_64.zip
-     unzip mo-dump-1.0.0-darwin-x86_64.zip
-     ```
+ ```
+ curl -OL https://github.com/matrixorigin/mo_dump/releases/download/1.0.0/mo-dump-1.0.0-darwin-x86_64.zip
+ unzip mo-dump-1.0.0-darwin-x86_64.zip
+ ```
 
-     ARM 架构系统安装包：
+ ARM 架构系统安装包：
 
-     ```
-     curl -OL https://github.com/matrixorigin/mo_dump/releases/download/1.0.0/mo-dump-1.0.0-darwin-arm64.zip
-     unzip mo-dump-1.0.0-darwin-arm64.zip
-     ```
+ ```
+ curl -OL https://github.com/matrixorigin/mo_dump/releases/download/1.0.0/mo-dump-1.0.0-darwin-arm64.zip
+ unzip mo-dump-1.0.0-darwin-arm64.zip
+ ```
 
-    如 github 原地址下载过慢，您可尝试从以下地址下载镜像包：
+如 github 原地址下载过慢，您可尝试从以下地址下载镜像包：
 
-    ```
-    curl -OL https://githubfast.com/matrixorigin/mo_dump/releases/download/1.0.0/mo-dump-1.0.0-darwin-xxx.zip
-    ```
-
+```
+curl -OL https://githubfast.com/matrixorigin/mo_dump/releases/download/1.0.0/mo-dump-1.0.0-darwin-xxx.zip
+```
+::::
+:::::
 - Linux 下安装
 
-=== "**下载方式一：`wget` 工具下载二进制包**"
+:::::{tab-set}
 
-     x86 架构系统安装包：
+::::{tab-item} **下载方式一：`wget` 工具下载二进制包**
+ x86 架构系统安装包：
 
-     ```
-     wget https://github.com/matrixorigin/mo_dump/releases/download/1.0.0/mo-dump-1.0.0-linux-x86_64.zip
-     unzip mo-dump-1.0.0-linux-x86_64.zip
-     ```
+ ```
+ wget https://github.com/matrixorigin/mo_dump/releases/download/1.0.0/mo-dump-1.0.0-linux-x86_64.zip
+ unzip mo-dump-1.0.0-linux-x86_64.zip
+ ```
 
-     ARM 架构系统安装包：
+ ARM 架构系统安装包：
 
-     ```
-     wget https://github.com/matrixorigin/mo_dump/releases/download/1.0.0/mo-dump-1.0.0-linux-arm64.zip
-     unzip mo-dump-1.0.0-linux-arm64.zip
-     ```
+ ```
+ wget https://github.com/matrixorigin/mo_dump/releases/download/1.0.0/mo-dump-1.0.0-linux-arm64.zip
+ unzip mo-dump-1.0.0-linux-arm64.zip
+ ```
 
-    如 github 原地址下载过慢，您可尝试从以下地址下载镜像包：
+如 github 原地址下载过慢，您可尝试从以下地址下载镜像包：
 
-    ```
-    wget  https://githubfast.com/matrixorigin/mo_dump/releases/download/1.0.0/mo-dump-1.0.0-linux-xxx.zip
-    ```
-=== "**下载方式二：`curl` 工具下载二进制包**"
+```
+wget  https://githubfast.com/matrixorigin/mo_dump/releases/download/1.0.0/mo-dump-1.0.0-linux-xxx.zip
+```
+::::
 
-     x86 架构系统安装包：
+::::{tab-item} **下载方式二：`curl` 工具下载二进制包**
+ x86 架构系统安装包：
 
-     ```
-     curl -OL https://github.com/matrixorigin/mo_dump/releases/download/1.0.0/mo-dump-1.0.0-linux-x86_64.zip
-     unzip mo-dump-1.0.0-linux-x86_64.zip
-     ```
+ ```
+ curl -OL https://github.com/matrixorigin/mo_dump/releases/download/1.0.0/mo-dump-1.0.0-linux-x86_64.zip
+ unzip mo-dump-1.0.0-linux-x86_64.zip
+ ```
 
-     ARM 架构系统安装包：
+ ARM 架构系统安装包：
 
-     ```
-     curl -OL https://github.com/matrixorigin/mo_dump/releases/download/1.0.0/mo-dump-1.0.0-linux-arm64.zip
-     unzip mo-dump-1.0.0-linux-arm64.zip
-     ```
+ ```
+ curl -OL https://github.com/matrixorigin/mo_dump/releases/download/1.0.0/mo-dump-1.0.0-linux-arm64.zip
+ unzip mo-dump-1.0.0-linux-arm64.zip
+ ```
 
-    如 github 原地址下载过慢，您可尝试从以下地址下载镜像包：
+如 github 原地址下载过慢，您可尝试从以下地址下载镜像包：
 
-    ```
-    curl -OL https://githubfast.com/matrixorigin/mo_dump/releases/download/1.0.0/mo-dump-1.0.0-linux-xxx.zip
-    ```
-!!! note
-    由于 linux 内核的限制，mo-dump 在低版本内核（低于 5.0）的 OS 上可能会出现无法正常运行的情况，此时需要升级您的内核版本。
-
+```
+curl -OL https://githubfast.com/matrixorigin/mo_dump/releases/download/1.0.0/mo-dump-1.0.0-linux-xxx.zip
+```
+::::
+:::::
+:::{note}
+由于 linux 内核的限制，mo-dump 在低版本内核（低于 5.0）的 OS 上可能会出现无法正常运行的情况，此时需要升级您的内核版本。
+:::
 ## 如何使用 `mo-dump` 导出 MatrixOne 数据库
 
 `mo-dump` 在命令行中非常易用。在你本地计算机上打开终端窗口，进入到解压后的 mo_dump 文件夹目录，找到 `mo-dump` 可执行文件：*mo-dump*，输入以下命令，连接到 MatrixOne，并且导出数据库：

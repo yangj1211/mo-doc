@@ -47,37 +47,50 @@ make clean                   # 删根目录 build/
 
 ## 项目结构
 
+**主题共享、内容独立**:所有产品共用 `_shared_theme/`(CSS/JS/模板/Sphinx 配置基类),内容各自在 `<product>/source/{zh,en}/`。
+
 ```
 docs-demo/
 ├── pyproject.toml
-├── Makefile                       # 根入口:委派给两个产品 + 产品选择页
+├── Makefile                       # 根入口:委派给每个产品 + 产品选择页
 ├── README.md
 │
+├── _shared_theme/                 # ★ 仓库唯一一份主题,所有产品继承
+│   ├── conf_base.py               # 共享 Sphinx / MyST / Furo 配置基类
+│   ├── _static/
+│   │   ├── css/custom.css         # 全部样式(:root tokens + [data-product] 品牌槽)
+│   │   ├── js/                    # topbar / breadcrumb / lang-switcher / version-switcher / icons / assistant / ...
+│   │   └── images/                # logo 等共享资源
+│   └── _templates/
+│       └── page.html              # 覆盖 Furo page.html,给 <html> 注入 data-product
+│
 ├── matrixone/                     # MatrixOne 产品
-│   ├── conf.py                    # 中英共用,SPHINX_LANG 切品牌标题
+│   ├── conf.py                    # from conf_base import *,只声明产品维度
 │   ├── Makefile                   # html / html-zh / html-en
 │   └── source/
-│       ├── _static/               # 中英共享的主题资源
-│       │   ├── css/custom.css     # 品牌化 CSS(顶部 :root 集中色值)
-│       │   └── js/                # topbar / breadcrumb / lang-switcher / version-switcher / icons / ...
-│       ├── _templates/            # 中英共享的 Jinja 模板覆盖
 │       ├── zh/                    # 中文内容
 │       └── en/                    # 英文内容
 │
 ├── matrixone-intelligence/        # MatrixOne Intelligence 产品(同形)
-│   ├── conf.py                    # 继承 matrixone/conf.py,覆盖品牌
+│   ├── conf.py                    # 同样 from conf_base import *,product='intelligence' 走紫调
 │   ├── Makefile
 │   └── source/
-│       ├── _static                # → symlink 到 ../../matrixone/source/_static
-│       ├── _templates             # → symlink 到 ../../matrixone/source/_templates
 │       ├── zh/                    # 479 篇 + 8 个 section index
 │       └── en/                    # 主页 + Get-Started / Overview / workflow-api / FAQs 各 1 篇
 │
 └── scripts/
     ├── migrate_from_mkdocs.py     # matrixone:从 mkdocs 迁
     ├── migrate_intelligence.py    # matrixone-intelligence:从 moc-docs 迁
+    ├── convert_admonitions.py     # MkDocs admonition / tab → MyST 批量转换
     └── build_picker.py            # 生成根目录产品选择页
 ```
+
+**关键约定:**
+- 主题层任何修改(CSS/JS/模板)只需改 `_shared_theme/`,所有产品自动同步
+- 产品独有的品牌色通过 CSS 变量 + `[data-product="..."]` 选择器区分,不需要写两套样式
+  - matrixone:蓝调(`:root` 默认)
+  - matrixone-intelligence:紫调(`html[data-product="intelligence"]` 覆写 `--mo-primary` 等 token)
+- 产品 `conf.py` 只放产品维度(产品名、`html_context.product`、独有 JS 文件等),Sphinx/MyST/扩展配置全在 `conf_base.py`
 
 产物目录:
 
@@ -101,16 +114,44 @@ build/html/
 
 ## 添加新产品
 
-1. 新建 `<product>/` 目录,按 matrixone 的形状填:`conf.py`、`Makefile`、`source/{_static,_templates,zh,en}/`。`_static` / `_templates` 可以用 symlink 指到 matrixone 的对应目录复用主题。
-2. `conf.py` 推荐 `from conf import *`(像 matrixone-intelligence 那样)继承 matrixone 的全部配置,只覆盖品牌字段。
-3. 根 `Makefile` 的 `html` 目标加一行 `$(MAKE) -C <product> html`,redirects 段加一段 `<product>/index.html` 写入。
-4. `scripts/build_picker.py` 的 `HTML` 模板里加一张产品卡。
+1. 新建 `<product>/` 目录,只放产品独有的东西:
+   ```
+   <product>/
+   ├── conf.py
+   ├── Makefile
+   └── source/{zh,en}/
+   ```
+   主题资源全部沿用 `_shared_theme/`,**不需要复制 _static / _templates**。
+2. `conf.py` 模板(参考 `matrixone/conf.py`):
+   ```python
+   import os, sys
+   from pathlib import Path
+   sys.path.insert(0, str(Path(__file__).parent.parent / "_shared_theme"))
+   from conf_base import *
+
+   _lang = os.environ.get("SPHINX_LANG", "zh_CN")
+   project = "..." if _lang == "en" else "..."
+   html_title = project
+   language = _lang
+   html_static_path = ["../_shared_theme/_static"]
+   templates_path = ["../_shared_theme/_templates"]
+   html_context = {"product": "<slug>"}     # 决定 CSS 走哪一套品牌色
+   ```
+3. 如果新产品要不同品牌色,在 `_shared_theme/_static/css/custom.css` 里加一段:
+   ```css
+   html[data-product="<slug>"] {
+     --mo-primary:    #...;
+     --mo-brand-soft: #...;
+   }
+   ```
+4. 根 `Makefile` 的 `html` 目标加 `$(MAKE) -C <product> html`,redirects 段加 redirect HTML。
+5. `scripts/build_picker.py` 的 `HTML` 模板里加产品卡。
 
 ## 添加新语言
 
-1. `<product>/source/<lang>/` 新建子目录,放进对应语言的全部内容。
+1. `<product>/source/<lang>/` 新建子目录,放进对应语言的内容。
 2. `<product>/Makefile` 加 `html-<lang>:` 目标,把 `SPHINX_LANG` 和 `-D language=` 传进去。
-3. `source/_static/js/lang-switcher.js` 加新语言的 LABEL / 路径解析正则。
+3. `_shared_theme/_static/js/lang-switcher.js` 加新语言的 LABEL / 路径解析正则。
 
 ## 添加新文档
 
@@ -118,7 +159,7 @@ build/html/
 
 ## 翻译覆盖
 
-`matrixone/source/_static/js/lang-switcher.js` 顶部两个常量控制右上角语言切换 pill:
+`_shared_theme/_static/js/lang-switcher.js` 顶部两个常量控制右上角语言切换 pill:
 
 ```js
 var HAS_EN = { matrixone: true };           // 英文全覆盖的产品

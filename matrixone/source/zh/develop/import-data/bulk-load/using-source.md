@@ -55,9 +55,9 @@ mysql> source /YOUR_PATH/a.sql
 nohup mysql -h 127.0.0.1 -P 6001 -uroot -p111 -e -D test 'source /YOUR_PATH/a.sql' &
 ```
 
-!!! note
-       上述代码段中的登录账号为初始账号，请在登录 MatrixOne 后及时修改初始密码，参见[密码管理](../../../Security/password-mgmt.md)。
-
+:::{note}
+   上述代码段中的登录账号为初始账号，请在登录 MatrixOne 后及时修改初始密码，参见[密码管理](../../../Security/password-mgmt.md)。
+:::
 #### 3. 检查数据
 
 导入成功后，使用如下 SQL 语句查看导入结果：

@@ -110,9 +110,9 @@ git push origin main:NEW_BRANCH
 ### **步骤 7：创建 PR**
 
 推送后，可以在您所 Fork 的仓库中看到相关提示信息，点击 **Compare & Pull Request** 按键来创建一个 PR（该 PR 应该是从个人仓库的 `NEW_BRANCH` 分支到主库的 `main` 分支）。
-!!! Note 注意
-    建议按照 PR 中所给出的模板要求，撰写相关信息，如此可以准确表达您的问题以及所做的修改，从而提高审查效率。
-
+:::{note} 注意
+建议按照 PR 中所给出的模板要求，撰写相关信息，如此可以准确表达您的问题以及所做的修改，从而提高审查效率。
+:::
 ![Pull Request](https://community-shared-data-1308875761.cos.ap-beijing.myqcloud.com/artwork/docs/contribution-guide/contribution-guide-pr.png)
 ![Pull Request Template](https://community-shared-data-1308875761.cos.ap-beijing.myqcloud.com/artwork/docs/contribution-guide/contribution-guide-pr-template.png)
 

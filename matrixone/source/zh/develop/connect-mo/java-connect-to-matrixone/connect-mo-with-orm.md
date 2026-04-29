@@ -40,9 +40,9 @@ spring.datasource.password=111
 mybatis.mapper-locations=classpath:mapping/*xml
 ```
 
-!!! note
-    需要使用推荐配置的 JDBC 连接 URL，否则将导致连接失败。
-
+:::{note}
+需要使用推荐配置的 JDBC 连接 URL，否则将导致连接失败。
+:::
 ## Spring Data JPA
 
 Spring Data JPA 是 Spring 基于 ORM 框架、JPA 规范的基础上封装的一套 JPA 应用框架，可使开发者用极简的代码即可实现对数据库的访问和操作，它有助于减少样板代码，并提供了一种通过几个预定义的存储库接口之一实现基本 CRUD 操作的机制，并且它也提供了包括增删改查等在内的常用功能，且易于扩展。

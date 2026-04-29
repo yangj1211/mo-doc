@@ -10,7 +10,7 @@
 
 在 [MatrixOne 简介](./../../Overview/matrixone-introduction.md)中您可以了解到 MO 的超融合、云边协同特性以及其所创造的优异表现与独特价值。
 此外，在 [MatrixOne 框架](./../../Overview/architecture/matrixone-architecture-design.md)中您可以详细地了解 MatrixOne 的整体架构，以及存储层、日志层等具体组成情况。
-同时，你也可以查阅 [MatrixOne 术语表](../../glossary.md)来了解一些复杂的词汇。
+同时，你也可以查阅 [MatrixOne 术语表](../../concepts/glossary.md)来了解一些复杂的词汇。
 在技术层面，[SQL 参考指南](./../../Reference/SQL-Reference/Data-Definition-Language/create-database.md)为您提供了详细的 SQL 语言的参考，其中对语法和示例都有详细解释；同样，[自定义函数](../../Reference/Functions-and-Operators/Mathematical/abs.md)提供了 MO 中自定义函数的相关解释。
 
 ### 建设情况
@@ -76,9 +76,9 @@ export GOPATH=$HOME/go
 export PATH=$PATH:$GOPATH/bin
 ```
 
-!!! Note 提示
-    MatrixOne 使用 [`Go Modules`](https://github.com/golang/go/wiki/Modules) 来管理相关依赖。
-
+:::{note} 提示
+MatrixOne 使用 [`Go Modules`](https://github.com/golang/go/wiki/Modules) 来管理相关依赖。
+:::
 若您需要补充 Go 语言的相关知识，可以通过 [How to Write Go Code](http://golang.org/doc/code.html) 进行了解。
 
 此外，确保您至少已经安装了单机版本的 MatrixOne，具体过程可参照 [Install Standalone MatrixOne](./../../Get-Started/install-standalone-matrixone.md)。

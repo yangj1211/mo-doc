@@ -42,5 +42,5 @@ Both rely on MVCC internals, but they serve different scenarios:
 Rule of thumb: **use a branch when you need to write; use a snapshot when you only need to read**.
 
 :::{seealso}
-Related SQL syntax: [CREATE SNAPSHOT](../sql-reference/snapshot.md)
+Related SQL syntax: [CREATE SNAPSHOT](../reference/snapshot.md)
 :::

@@ -32,9 +32,9 @@ MatrixOne 现在支持通过以下几种数据库客户端工具的方式连接 
     Enter password:
     ```
 
-    !!! note
-        上述代码段中的登录账号为初始账号，请在登录 MatrixOne 后及时修改初始密码，参见[密码管理](../../Security/password-mgmt.md)。
-
+    :::{note}
+    上述代码段中的登录账号为初始账号，请在登录 MatrixOne 后及时修改初始密码，参见[密码管理](../../Security/password-mgmt.md)。
+    :::
 3. 连接成功提示如下：
 
     ```
@@ -48,9 +48,9 @@ MatrixOne 现在支持通过以下几种数据库客户端工具的方式连接 
 
 更多关于安装部署的问题，参见[部署常见问题](../../FAQs/deployment-faqs.md)。
 
-!!! note
-    MatrixOne 与客户端默认是非加密传输，如果需要开启加密传输请参见[数据传输加密](../../Security/TLS-introduction.md)。
-
+:::{note}
+MatrixOne 与客户端默认是非加密传输，如果需要开启加密传输请参见[数据传输加密](../../Security/TLS-introduction.md)。
+:::
 ## 通过 Navicat 连接 MatrixOne 服务
 
 1. 下载安装 [Navicat](https://www.navicat.com/en/products)。

@@ -1,43 +1,75 @@
 {.mo-hero-title}
-# A One-Stop DATA + AI Platform
+# A one-stop DATA + AI platform
 
 {.mo-subtitle}
 Data governance, document intelligence, and agent building — end-to-end from raw data to AI applications.
 
-::::{grid} 1 2 2 2
+::::{grid} 1 2 2 4
 :gutter: 3
 :margin: 4 0 4 0
 
-:::{grid-item-card} 5-Minute Quickstart
-:link: Get-Started/quickstart
+:::{grid-item-card} 🚀 &nbsp;Get Started
+:link: get-started/index
 :link-type: doc
 :class-card: mo-entry-card
 
 The shortest path from creating a workspace to running your first vector query.
 :::
 
-:::{grid-item-card} Core Concepts
-:link: Overview/matrixone-intelligence-introduction
+:::{grid-item-card} 📐 &nbsp;Overview
+:link: overview/index
 :link-type: doc
 :class-card: mo-entry-card
 
-Understand the platform's positioning, capability boundaries, and multi-modal data architecture.
+Product positioning, core capabilities, MySQL compatibility.
 :::
 
-:::{grid-item-card} API Reference
-:link: workflow-api/automic_api
+:::{grid-item-card} 🧠 &nbsp;Workspace
+:link: workspace/index
 :link-type: doc
 :class-card: mo-entry-card
 
-Atomic-pipeline interface spec for data ingest, processing, and exploration.
+Workspace & permissions, instance, data, SQL, ops, tools.
 :::
 
-:::{grid-item-card} FAQ
-:link: FAQs/FAQ-Product
+:::{grid-item-card} 🛠️ &nbsp;Develop & API
+:link: develop/index
 :link-type: doc
 :class-card: mo-entry-card
 
-Common questions on instances, billing, connectivity, and platform limits.
+Workflow APIs, MCP integration, Deerflow.
+:::
+
+:::{grid-item-card} 💳 &nbsp;Billing
+:link: billing/index
+:link-type: doc
+:class-card: mo-entry-card
+
+Pricing, accounts, top-up & renewal, bills and coupons.
+:::
+
+:::{grid-item-card} 📚 &nbsp;Reference
+:link: reference/index
+:link-type: doc
+:class-card: mo-entry-card
+
+Data types, SQL syntax, functions and operators, variables and system tables.
+:::
+
+:::{grid-item-card} 🧭 &nbsp;Help
+:link: help/index
+:link-type: doc
+:class-card: mo-entry-card
+
+FAQs, technical support, glossary, agreements.
+:::
+
+:::{grid-item-card} 📦 &nbsp;Release Notes
+:link: release-notes/index
+:link-type: doc
+:class-card: mo-entry-card
+
+Year-by-year archive of version changes.
 :::
 
 ::::
@@ -48,13 +80,17 @@ Common questions on instances, billing, connectivity, and platform limits.
 :hidden:
 
 Home <self>
-5-Minute Quickstart <Get-Started/quickstart>
-Core Concepts <Overview/matrixone-intelligence-introduction>
-API Reference <workflow-api/automic_api>
-FAQ <FAQs/FAQ-Product>
+Get Started <get-started/index>
+Overview <overview/index>
+Workspace <workspace/index>
+Develop & API <develop/index>
+Billing <billing/index>
+Reference <reference/index>
+Help <help/index>
+Release Notes <release-notes/index>
 ```
 
 ```{note}
-This English site only contains the 4 core docs above. The full Chinese site has
-~480 pages — for any other topic, please switch to the Chinese version.
+This English site is in active translation. The Workspace section will land soon —
+use the language switch to read it in 中文 in the meantime.
 ```

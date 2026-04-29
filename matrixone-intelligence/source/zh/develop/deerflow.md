@@ -52,7 +52,7 @@ pnpm install
 
 ### 创建工作流
 
-具体创建步骤可参考文章[工作流](../Data-Processing/workflow.md)
+具体创建步骤可参考文章[工作流](../workspace/data/processing/workflow.md)
 
 基础 RAG 工作流必须包含解析节点、分段节点和嵌入节点。
 

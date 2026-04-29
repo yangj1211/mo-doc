@@ -1,10 +1,19 @@
-"""MatrixOne 文档(中英共用 conf.py)
+"""MatrixOne 文档(中英共用 conf.py)。
 
-源内容分别在 source/zh 与 source/en;sphinx-build 的位置参数指定走哪一套。
-通过 SPHINX_LANG 环境变量(zh_CN | en)切换 language 与品牌标题,
-Makefile 会在调用前 export SPHINX_LANG。
+主题/扩展/MyST 配置全部继承自 _shared_theme/conf_base.py。
+本文件只声明产品维度:
+- 项目名/标题(随 SPHINX_LANG 切语种)
+- 内容 language
+- 主题资源路径(指回 ../_shared_theme/)
+- html_context.product = 'matrixone' → CSS 用 [data-product="matrixone"] 选品牌色
 """
 import os
+import sys
+from pathlib import Path
+
+sys.path.insert(0, str(Path(__file__).parent.parent / "_shared_theme"))
+
+from conf_base import *  # noqa: F401, F403, E402
 
 _lang = os.environ.get("SPHINX_LANG", "zh_CN")
 
@@ -14,58 +23,7 @@ author = "MatrixOne"
 copyright = "2026, MatrixOne"
 language = _lang
 
-extensions = [
-    "myst_parser",
-    "sphinx_copybutton",
-    "sphinx_design",
-]
+html_static_path = ["../_shared_theme/_static"]
+templates_path = ["../_shared_theme/_templates"]
 
-myst_enable_extensions = [
-    "colon_fence",
-    "deflist",
-    "attrs_block",
-    "tasklist",
-]
-
-source_suffix = {
-    ".md": "markdown",
-    ".rst": "restructuredtext",
-}
-
-exclude_patterns = ["_build", "Thumbs.db", ".DS_Store"]
-
-suppress_warnings = [
-    "misc.highlighting_failure",
-    "myst.xref_missing",
-    "myst.header",
-]
-
-html_theme = "furo"
-html_static_path = ["source/_static"]
-templates_path = ["source/_templates"]
-html_css_files = ["css/custom.css"]
-html_js_files = [
-    "js/topbar.js",
-    "js/breadcrumb.js",
-    "js/feedback.js",
-    "js/footer.js",
-    "js/mo-highlight.js",
-    "js/assistant.js",
-    "js/lang-switcher.js",
-    "js/version-switcher.js",
-]
-
-html_show_sourcelink = False
-html_copy_source = False
-
-html_theme_options = {
-    "light_css_variables": {
-        "color-brand-primary": "#004af0",
-        "color-brand-content": "#004af0",
-    },
-    "dark_css_variables": {
-        "color-brand-primary": "#6b8cff",
-        "color-brand-content": "#6b8cff",
-    },
-    "sidebar_hide_name": False,
-}
+html_context = {"product": "matrixone"}

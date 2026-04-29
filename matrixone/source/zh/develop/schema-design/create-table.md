@@ -2,9 +2,9 @@
 
 本篇文档中介绍如何使用 SQL 来创建表。上一篇文档中介绍了创建一个名为 *modatabase* 的数据库，本篇文档我们介绍在这个数据库中创建一个表。
 
-!!! note
-    此处仅对 `CREATE TABLE` 语句进行简单描述。更多信息，参见 [CREATE TABLE](../../Reference/SQL-Reference/Data-Definition-Language/create-table.md)。
-
+:::{note}
+此处仅对 `CREATE TABLE` 语句进行简单描述。更多信息，参见 [CREATE TABLE](../../Reference/SQL-Reference/Data-Definition-Language/create-table.md)。
+:::
 ## 开始前准备
 
 在阅读本页面之前，你需要准备以下事项：

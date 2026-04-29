@@ -59,9 +59,9 @@ LOAD DATA URL s3option{"endpoint"='oss-cn-shanghai.aliyuncs.com', "access_key_id
 LOAD DATA URL s3option{"endpoint"='cos.ap-shanghai.myqcloud.com', "access_key_id"='XXXXXX', "secret_access_key"='XXXXXX', "bucket"='test-1252279971', "filepath"='test.csv.bz2', "region"='ap-shanghai', "compression"='bz2'} INTO TABLE t1 FIELDS TERMINATED BY ',' ENCLOSED BY '\"' LINES TERMINATED BY '\n';
 ```
 
-!!! note
-    MatrixOne 提供了 S3 验证信息的安全保证，例如 `access_key_id` 和 `secret_access_key` 敏感信息在系统表（statement_info）记录里将被隐藏，保证你的账户安全。
-
+:::{note}
+MatrixOne 提供了 S3 验证信息的安全保证，例如 `access_key_id` 和 `secret_access_key` 敏感信息在系统表（statement_info）记录里将被隐藏，保证你的账户安全。
+:::
 ### 教程：从 AWS S3 加载文件
 
 本教程中将指导你完成从 AWS S3 加载**. csv** 文件的过程。
@@ -70,10 +70,10 @@ LOAD DATA URL s3option{"endpoint"='cos.ap-shanghai.myqcloud.com', "access_key_id
 
 如果你还没有准备好数据文件，请先注册并上传你的数据文件；你也可以查看 AWS S3 [官方教程](https://docs.aws.amazon.com/AmazonS3/latest/userguide/GetStartedWithS3.html)。如果你的数据文件想要上传到阿里云 OSS 或者腾讯云 COS 上，那么操作流程与 AWS S3 类似。
 
-!!! note
-    由于帐户隐私，此代码示例不会显示帐户信息，例如 `access_key_id` 和 `secret_access_key`。
-    你可以阅读本文档以了解主要步骤；具体数据和账户信息将不会显示。
-
+:::{note}
+由于帐户隐私，此代码示例不会显示帐户信息，例如 `access_key_id` 和 `secret_access_key`。
+你可以阅读本文档以了解主要步骤；具体数据和账户信息将不会显示。
+:::
 1. 下载[数据文件](https://github.com/matrixorigin/matrixone/blob/main/test/distributed/resources/load_data/char_varchar_1.csv)。进入 **AWS S3 > buckets**，创建一个具有公共访问权限的存储桶 **test-loading** 并上传文件 *char_varchar_1.csv*。
 
 <div align="center">
@@ -161,9 +161,9 @@ create external table t(...) URL s3option{"endpoint"='<string>', "access_key_id"
 [IGNORE number {LINES | ROWS}];
 ```
 
-!!! note
-    MatrixOne 当前仅支持对外部表进行 `select`，暂不支持 `Delete`，`insert`，`update`。
-
+:::{note}
+MatrixOne 当前仅支持对外部表进行 `select`，暂不支持 `Delete`，`insert`，`update`。
+:::
 **参数说明**
 
 |参数 | 描述|
@@ -194,10 +194,10 @@ create external table t1(col1 char(225)) url s3option{"endpoint"='cos.ap-shangha
 
 本教程将指导你完成使用来自 AWS S3 的**. csv** 文件创建外部表的整个过程。
 
-!!! note
-    由于帐户隐私，此代码示例不会显示帐户信息，例如 `access_key_id` 和 `secret_access_key`。
-    你可以阅读本文档以了解主要步骤；具体数据和账户信息将不会显示。
-
+:::{note}
+由于帐户隐私，此代码示例不会显示帐户信息，例如 `access_key_id` 和 `secret_access_key`。
+你可以阅读本文档以了解主要步骤；具体数据和账户信息将不会显示。
+:::
 1. 下载[数据文件](https://github.com/matrixorigin/matrixone/blob/main/test/distributed/resources/load_data/char_varchar_1.csv)。进入 **AWS S3 > buckets**，创建一个具有公共访问权限的存储桶 **test-loading** 并上传文件 *char_varchar_1.csv*。
 
 <div align="center">

@@ -134,9 +134,9 @@ git pull --force upstream main:main
 git push --force origin main:main
 ```
 
-!!! info 注意
-    若您在中英文两个仓库都做了修改，那么以上大部分操作都需要分别针对中英文两个仓库都执行一遍。  
-
+:::{note} 注意
+若您在中英文两个仓库都做了修改，那么以上大部分操作都需要分别针对中英文两个仓库都执行一遍。  
+:::
 ## **写一篇博文**
 
 如果您有意写一篇关于 MatrixOne 的博文，请在 GitHub 上提出 [Issue](https://github.com/matrixorigin/matrixone/issues/new/choose)，或者将您的想法发送到 [dengnan@matrixorigin.io](mailto:dengnan@matrixorigin.io)，无论是简单的 Idea 还是完整的草案，我们统统接受。我们会尽快审查所有内容，如果您的文章或想法很契合我们的博客，我们会直接联系您。

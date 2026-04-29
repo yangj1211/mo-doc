@@ -1,0 +1,21 @@
+{#
+  Furo 渲染走 page.html → base.html(layout.html 是 Furo 故意做的错误页,不能 extend),
+  所以这里覆盖 page.html、extends 同名。
+
+  通过 extrahead block 在 head 早期插一段 inline JS,
+  给 <html> 打 data-product="..."。CSS 用 [data-product="intelligence"] 选紫调,
+  默认(matrixone)继承 :root。
+
+  product 由每个产品的 conf.py 注入:html_context = {"product": "matrixone"|"intelligence"}
+  时机够早(head 内联,DOMContentLoaded 之前),CSS 套用前 attr 已就位,不会 FOUC。
+#}
+{% extends "!page.html" %}
+
+{% block extrahead %}
+  {{ super() }}
+  <script>
+    (function () {
+      document.documentElement.setAttribute('data-product', '{{ product | default("matrixone") }}');
+    })();
+  </script>
+{% endblock %}

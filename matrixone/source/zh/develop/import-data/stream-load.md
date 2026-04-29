@@ -28,9 +28,9 @@ INTO TABLE tbl_name;
 
 `DATA=$XXX$ csv_string $XXX$` 中的 `$XXX$` 是数据开始和结束的标识符。`csv_string` 是以 `csv` 为格式组织字符串数据，以 `\n` 或者 `\r\n` 作为换行符。
 
-!!! note
-    `$XXX$` 为数据开始和结束的标识符，注意数据结束处的 `$XXX$` 需要和最后一行数据放在同一行，换行可能导致 `ERROR 20101`
-
+:::{note}
+`$XXX$` 为数据开始和结束的标识符，注意数据结束处的 `$XXX$` 需要和最后一行数据放在同一行，换行可能导致 `ERROR 20101`
+:::
 ## 开始前准备
 
 已完成[单机部署 MatrixOne](../../Get-Started/install-standalone-matrixone.md)。
@@ -45,9 +45,9 @@ INTO TABLE tbl_name;
     mysql -h 127.0.0.1 -P 6001 -uroot -p111
     ```
 
-    !!! note
-        上述代码段中的登录账号为初始账号，请在登录 MatrixOne 后及时修改初始密码，参见[密码管理](../../Security/password-mgmt.md)。
-
+    :::{note}
+    上述代码段中的登录账号为初始账号，请在登录 MatrixOne 后及时修改初始密码，参见[密码管理](../../Security/password-mgmt.md)。
+    :::
 2. 在 MatrixOne 中执行 `LOAD DATA INLINE` 之前，需要提前在 MatrixOne 中创建完成数据表 `user`:
 
     ```mysql

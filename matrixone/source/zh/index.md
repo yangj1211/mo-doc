@@ -9,43 +9,51 @@ MatrixOne 是面向 AI 时代的一体化数据库，在一套引擎中同时提
 :margin: 4 0 4 0
 
 :::{grid-item-card} 🚀 &nbsp;快速开始
-:link: getting-started/index
+:link: get-started/index
 :link-type: doc
 :class-card: mo-entry-card
 
 从零启动一个 MatrixOne 实例，完成建库、建表、查询的完整闭环。
 :::
 
-:::{grid-item-card} 📐 &nbsp;关于 MatrixOne
-:link: overview/index
+:::{grid-item-card} 📐 &nbsp;核心概念
+:link: concepts/index
 :link-type: doc
 :class-card: mo-entry-card
 
 理解 MatrixOne 的定位、核心特性、架构设计与产品对比。
 :::
 
-:::{grid-item-card} 🛠️ &nbsp;开发指南
+:::{grid-item-card} 🛠️ &nbsp;开发
 :link: develop/index
 :link-type: doc
 :class-card: mo-entry-card
 
-从连接、建模、读写到事务、向量、生态工具的完整开发链路。
+从连接、建模、读写到事务、向量、生态工具，外加 15 篇实战教程。
+:::
+
+:::{grid-item-card} ⚙️ &nbsp;运维
+:link: operate/index
+:link-type: doc
+:class-card: mo-entry-card
+
+部署、监控、备份恢复、迁移、性能调优、安全权限、压测验收。
 :::
 
 :::{grid-item-card} 🗄️ &nbsp;SQL 参考
-:link: sql-reference/index
+:link: reference/index
 :link-type: doc
 :class-card: mo-entry-card
 
 完整的 DDL / DML / 管理命令语法、参数与示例。
 :::
 
-:::{grid-item-card} 🧭 &nbsp;常见问题
-:link: faqs/index
+:::{grid-item-card} 🧭 &nbsp;帮助
+:link: help/index
 :link-type: doc
 :class-card: mo-entry-card
 
-部署、产品、SQL 三大主题，覆盖上手过程中的高频疑问。
+故障诊断、部署 / 产品 / SQL 三类常见问题。
 :::
 
 :::{grid-item-card} 📦 &nbsp;版本发布
@@ -64,19 +72,12 @@ MatrixOne 是面向 AI 时代的一体化数据库，在一套引擎中同时提
 :hidden:
 
 主页 <self>
-关于 MatrixOne <overview/index>
-快速开始 <getting-started/index>
-开发指南 <develop/index>
-部署指南 <deploy/index>
-运维 <maintain/index>
-数据迁移 <migrate/index>
-测试 <test/index>
-性能调优 <performance-tuning/index>
-安全与权限 <security/index>
-参考手册 <sql-reference/index>
-故障诊断 <troubleshooting/index>
-常见问题解答 <faqs/index>
-版本发布纪要 <release-notes/index>
-名词术语表 <glossary>
+快速开始 <get-started/index>
+核心概念 <concepts/index>
+开发 <develop/index>
+运维 <operate/index>
+SQL 参考 <reference/index>
+帮助 <help/index>
+版本发布 <release-notes/index>
 社区贡献指南 <contribution-guide/index>
 ```

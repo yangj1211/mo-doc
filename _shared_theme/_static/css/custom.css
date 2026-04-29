@@ -1,0 +1,2705 @@
+/* ==========================================================================
+   MatrixOne Docs — custom.css（最终精修版）
+   代码块：深色 → Snowflake / GitHub 风浅色（冷灰底 + 左侧品牌竖边）
+   其余元素：继续克制，品牌色只留在真正的品牌锚点。
+
+   分区：
+     1. 设计 Token（:root 变量）
+     2. Furo 主题变量覆盖
+     3. 正文排版
+     4. 代码（浅色代码块 / 行内 code / MatrixOne 方言高亮）
+     5. 表格
+     6. 引用 & admonition
+     7. 左侧侧边栏
+     8. 右侧 TOC
+     9. 顶栏
+    10. sphinx-design tab-set（Segment 风格）
+    11. 首页 Hero
+    12. sphinx-design 卡片
+    13. 语言 pill
+    14. 助手 FAB + 抽屉
+   ========================================================================== */
+
+
+/* ============================================================
+   1. 设计 Token
+   ============================================================ */
+:root {
+  /* 品牌色 */
+  --mo-primary:          #004af0;
+  --mo-primary-600:      #1d49e7;
+  --mo-brand-soft:       #3B82F6;   /* UI 高亮用：代码块竖边 / 顶栏当前项 / TOC 当前项 / 搜索 focus */
+  --mo-brand-sidebar:    #2563EB;   /* 侧边栏当前项文字（略深） */
+  --mo-cyan:             #31edff;
+  --mo-lavender:         #8b7cf0;
+
+  --mo-gradient-brand:   linear-gradient(135deg, #004af0 0%, #31edff 100%);
+  --mo-gradient-assist:  linear-gradient(135deg, #8b7cf0 0%, #004af0 100%);
+
+  /* 中性灰 */
+  --mo-ink-900:    #111827;
+  --mo-ink-800:    #1F2937;   /* 顶栏 hover / TOC hover / tab 激活文字 */
+  --mo-ink-700:    #374151;   /* 顶栏默认 */
+  --mo-ink-600:    #4B5563;
+  --mo-ink-500:    #6B7280;   /* 品牌字右边的 Docs 小字 */
+  --mo-ink-450:    #475569;
+  --mo-ink-400:    #94A3B8;
+  --mo-ink-350:    #64748B;   /* 注释 / segment tab 默认 */
+  --mo-ink-300:    #6E7781;   /* 代码注释 / 复制按钮默认 */
+
+  /* 浅面色 */
+  --mo-surface-50:     #F8FAFC;
+  --mo-surface-100:    #F1F5F9;  /* segment tab 容器 */
+  --mo-surface-150:    #EFF6FF;  /* 侧边栏当前项 bg */
+  --mo-surface-code:   #E5E9F0;  /* 代码块 / 行内 code 底色（明显的冷灰,RGB 与 #fff 差 ≥ 15） */
+  --mo-surface-faint:  #FAFBFC;
+  --mo-border-100:     #E2E8F0;
+  --mo-border-code:    #D0D7DE;  /* 代码块右侧极淡描边（仅暗色模式下用来区分代码块边界） */
+
+  /* 代码文字色（GitHub 风） */
+  --mo-code-fg:         #24292F;   /* 默认字色 */
+  --mo-code-keyword:    #0969DA;   /* 关键字蓝 */
+  --mo-code-dialect:    #8250DF;   /* MatrixOne 方言紫 */
+  --mo-code-string:     #0A3069;   /* 字符串深蓝 */
+  --mo-code-number:     #0550AE;   /* 数字中蓝 */
+  --mo-code-comment:    #6E7781;   /* 注释中灰 */
+  --mo-code-operator:   #CF222E;   /* 操作符橙红 */
+  --mo-code-variable:   #953800;   /* 变量深橙 */
+  --mo-code-function:   #8250DF;   /* 函数名紫 */
+
+  /* 圆角 */
+  --mo-radius-sm:  4px;
+  --mo-radius:     6px;
+  --mo-radius-md:  8px;
+  --mo-radius-lg:  12px;
+
+  /* 仅 FAB 用的阴影 */
+  --mo-shadow-lg: 0 12px 32px rgba(0,74,240,.18), 0 4px 12px rgba(20,33,64,.08);
+
+  /* 字体 */
+  --mo-font-mono: 'JetBrains Mono', 'SF Mono', Menlo, ui-monospace, Consolas, monospace;
+
+  /* 顶栏尺寸（单行布局） */
+  --mo-topbar-h:         64px;
+}
+
+
+/* ============================================================
+   2. Furo 主题变量覆盖
+   ============================================================ */
+body:not([data-theme="dark"]) {
+  --color-brand-primary: var(--mo-primary);
+  --color-brand-content: var(--mo-primary);
+  --color-link: var(--mo-primary);
+  --color-link--hover: var(--mo-primary-600);
+
+  --color-inline-code-background: var(--mo-surface-code);
+  --color-code-background: var(--mo-surface-code);
+  --color-code-foreground: var(--mo-code-fg);
+
+  --color-background-secondary: var(--mo-surface-50);
+  --color-background-border: var(--mo-border-100);
+  --color-foreground-primary: var(--mo-ink-900);
+  --color-foreground-secondary: var(--mo-ink-600);
+
+  /* —— 正文白底:之前用 #f4f6fb 冷灰跟代码块 #F0F3F6 几乎同色,代码块完全跳不出。
+        改回纯白后,代码块 #E5E9F0 与正文 RGB 差 (26,22,15),眯眼无须可辨。 —— */
+  background: #ffffff;
+}
+/* Furo 容器透明，让 body 底色透出来；
+   sidebar / TOC 也透明，跟内容区共享同一片冷灰，避免"白边框 vs 灰中心"的硬切。
+   topbar 保持白色，靠底部 1px 描边作为视觉分隔。 */
+body:not([data-theme="dark"]) .page,
+body:not([data-theme="dark"]) main,
+body:not([data-theme="dark"]) .main,
+body:not([data-theme="dark"]) .sidebar-drawer,
+body:not([data-theme="dark"]) .toc-drawer {
+  background: transparent !important;
+}
+body:not([data-theme="dark"]) .sidebar-drawer {
+  border-right: 1px solid rgba(229, 231, 235, 0.6);
+}
+body:not([data-theme="dark"]) .toc-drawer {
+  border-left: 1px solid rgba(229, 231, 235, 0.6);
+}
+body[data-theme="dark"] {
+  --color-brand-primary: #6b8cff;
+  --color-brand-content: #6b8cff;
+  --color-link: #6b8cff;
+  --color-link--hover: #9db1ff;
+
+  --color-inline-code-background: #1A2233;
+  --color-code-background: #1A2233;
+  --color-code-foreground: #E6EDF3;
+
+  /* 暗色下的代码块 token 同步覆写,这样 .highlight(用 --mo-surface-code)和 furo 行内 code(用 --color-code-background)颜色一致 */
+  --mo-surface-code: #1A2233;
+  --mo-brand-soft:   #58A6FF;   /* 代码块左竖边、顶栏/TOC 当前项一并提亮,符合暗色对比 */
+  --mo-code-fg:      #E6EDF3;
+}
+
+/* —— 产品品牌槽切换 ——
+   <html data-product="..."> 由 _shared_theme/_templates/layout.html 注入,
+   值由 conf.py 的 html_context.product 决定:matrixone / intelligence。
+   matrixone 用 :root 默认值(蓝调),intelligence 在这里把核心 token 翻成紫调,
+   所有用 var(--mo-primary / --mo-brand-soft / 紫面色) 的地方自动跟着切换:
+   代码块左竖边、顶栏/TOC 当前项、侧边栏 hover、搜索 focus、链接、按钮 hover…… */
+html[data-product="intelligence"] {
+  --mo-primary:        #8B5CF6;   /* 紫主色,替代 #004af0 */
+  --mo-primary-600:    #7C3AED;   /* 紫主色 hover */
+  --mo-brand-soft:     #8B5CF6;   /* 代码块左竖边 / 顶栏 active 等 UI 高亮 */
+  --mo-brand-sidebar:  #7C3AED;   /* 侧边栏当前项文字(略深) */
+  --mo-surface-150:    #F5F3FF;   /* 侧边栏当前项 bg(浅紫) */
+}
+html[data-product="intelligence"] body:not([data-theme="dark"]) {
+  --color-brand-primary: #8B5CF6;
+  --color-brand-content: #8B5CF6;
+  --color-link:          #8B5CF6;
+  --color-link--hover:   #7C3AED;
+}
+html[data-product="intelligence"] body[data-theme="dark"] {
+  --color-brand-primary: #C4B5FD;
+  --color-brand-content: #C4B5FD;
+  --color-link:          #C4B5FD;
+  --color-link--hover:   #DDD6FE;
+  --mo-brand-soft:       #C4B5FD;
+}
+
+/* —— 全局 :visited 拦截 ——
+   浏览器默认把访问过的链接染成 #551A8B 紫色，会盖过作者样式。
+   这里强制 visited 继承当前色，消除"满屏紫色"。 */
+a:visited        { color: inherit !important; }
+a:visited:hover  { color: var(--mo-brand-soft) !important; }
+
+
+/* ============================================================
+   3. 正文排版
+   ============================================================ */
+article[role="main"] {
+  max-width: 800px;
+  margin-left: auto;
+  margin-right: auto;
+  padding: 0 48px;
+}
+
+/* 面包屑（JS 注入到 article 顶部）：[home icon] > Section > 当前页 */
+.mo-breadcrumb {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin: 24px 0 8px;
+  font-size: 14px;
+  line-height: 1.4;
+  color: var(--mo-ink-500);
+}
+.mo-breadcrumb .mo-breadcrumb__link,
+.mo-breadcrumb .mo-breadcrumb__link:link,
+.mo-breadcrumb .mo-breadcrumb__link:visited {
+  color: #2563EB !important;
+  text-decoration: none !important;
+  transition: color .15s;
+  display: inline-flex;
+  align-items: center;
+}
+.mo-breadcrumb .mo-breadcrumb__link:hover {
+  color: #1D4ED8 !important;
+  text-decoration: none !important;
+}
+.mo-breadcrumb__home svg {
+  width: 16px;
+  height: 16px;
+  display: block;
+}
+.mo-breadcrumb__sep {
+  display: inline-flex;
+  align-items: center;
+  color: #9CA3AF;
+  user-select: none;
+}
+.mo-breadcrumb__sep svg {
+  width: 12px;
+  height: 12px;
+}
+.mo-breadcrumb__current {
+  color: #1F2937;
+  font-weight: 400;
+}
+body[data-theme="dark"] .mo-breadcrumb { color: #94a3b8; }
+body[data-theme="dark"] .mo-breadcrumb .mo-breadcrumb__link,
+body[data-theme="dark"] .mo-breadcrumb .mo-breadcrumb__link:visited { color: #6b8cff !important; }
+body[data-theme="dark"] .mo-breadcrumb .mo-breadcrumb__link:hover { color: #9db1ff !important; }
+body[data-theme="dark"] .mo-breadcrumb__current { color: #f3f4f6; }
+body[data-theme="dark"] .mo-breadcrumb__sep { color: #4b5563; }
+
+/* 最后更新时间（紧贴面包屑下方） */
+.mo-lastupdated {
+  margin: 0 0 24px;
+  font-size: 13px;
+  font-style: italic;
+  color: var(--mo-ink-500);
+}
+.mo-lastupdated strong {
+  font-weight: 700;
+  font-style: normal;
+  color: var(--mo-ink-900);
+}
+body[data-theme="dark"] .mo-lastupdated { color: #94a3b8; }
+body[data-theme="dark"] .mo-lastupdated strong { color: #f3f4f6; }
+
+article h1 {
+  font-size: 30px;
+  font-weight: 600;
+  color: var(--mo-ink-900);
+  letter-spacing: -0.02em;
+  line-height: 1.25;
+  margin: 0 0 24px;
+  padding: 0;
+  border: none;
+}
+article h2 {
+  font-size: 22px;
+  font-weight: 600;
+  color: var(--mo-ink-900);
+  letter-spacing: -0.015em;
+  line-height: 1.3;
+  margin: 48px 0 16px;
+  padding: 0;
+  border: none;
+}
+article h3 {
+  font-size: 17px;
+  font-weight: 600;
+  color: var(--mo-ink-800);
+  line-height: 1.4;
+  margin: 32px 0 12px;
+}
+article h4 {
+  font-size: 15px;
+  font-weight: 600;
+  color: var(--mo-ink-700);
+  line-height: 1.4;
+  margin: 24px 0 8px;
+}
+article :is(h1, h2, h3, h4) .headerlink {
+  color: var(--mo-border-100);
+  font-weight: 400;
+  opacity: 0;
+  transition: opacity .15s ease;
+}
+article :is(h1, h2, h3, h4):hover .headerlink { opacity: 1; }
+
+body[data-theme="dark"] article h1,
+body[data-theme="dark"] article h2 { color: #f3f4f6; }
+body[data-theme="dark"] article h3 { color: #e5e7eb; }
+body[data-theme="dark"] article h4 { color: #d1d5db; }
+
+article p {
+  margin: 0 0 1.25em;
+  line-height: 1.7;
+}
+article ul,
+article ol {
+  margin: 0 0 1.25em;
+  padding-left: 1.5em;
+}
+article li + li { margin-top: 0.5em; }
+article li > p { margin-bottom: 0.5em; }
+
+/* 3d 正文链接：克制蓝（GitHub / Stripe 风）
+   默认中等饱和蓝 + 半透明淡蓝下划线；hover 加深 + 下划线变实。
+   visited 由顶部全局规则拦掉浏览器紫，继承到这里的颜色。 */
+article[role="main"] a:not(.headerlink):not(.toc-backref):not(.sd-stretched-link):not(.sd-card),
+article[role="main"] a:not(.headerlink):not(.toc-backref):not(.sd-stretched-link):not(.sd-card):visited {
+  color: #2563EB !important;
+  text-decoration: underline;
+  text-decoration-thickness: 1px;
+  text-underline-offset: 3px;
+  text-decoration-color: rgba(37, 99, 235, 0.3);
+  transition: color 0.15s, text-decoration-color 0.15s;
+}
+article[role="main"] a:not(.headerlink):not(.toc-backref):not(.sd-stretched-link):not(.sd-card):hover,
+article[role="main"] a:not(.headerlink):not(.toc-backref):not(.sd-stretched-link):not(.sd-card):visited:hover {
+  color: #1D4ED8 !important;
+  text-decoration-color: rgba(37, 99, 235, 0.8);
+}
+
+/* 暗色模式正文链接 */
+body[data-theme="dark"] article[role="main"] a:not(.headerlink):not(.toc-backref):not(.sd-stretched-link):not(.sd-card),
+body[data-theme="dark"] article[role="main"] a:not(.headerlink):not(.toc-backref):not(.sd-stretched-link):not(.sd-card):visited {
+  color: #6b8cff !important;
+  text-decoration-color: rgba(107, 140, 255, 0.3);
+}
+body[data-theme="dark"] article[role="main"] a:not(.headerlink):not(.toc-backref):not(.sd-stretched-link):not(.sd-card):hover {
+  color: #9db1ff !important;
+  text-decoration-color: rgba(107, 140, 255, 0.8);
+}
+
+/* "目录式列表"：li 中只有一个链接子元素时，默认无下划线、克制蓝；hover 才出实下划线。 */
+article[role="main"] li > a:only-child,
+article[role="main"] li > a:only-child:visited {
+  text-decoration: none;
+  color: #2563EB !important;
+}
+article[role="main"] li > a:only-child:hover,
+article[role="main"] li > a:only-child:visited:hover {
+  color: #1D4ED8 !important;
+  text-decoration: underline;
+  text-decoration-thickness: 1px;
+  text-underline-offset: 3px;
+}
+body[data-theme="dark"] article[role="main"] li > a:only-child,
+body[data-theme="dark"] article[role="main"] li > a:only-child:visited {
+  color: #6b8cff !important;
+}
+body[data-theme="dark"] article[role="main"] li > a:only-child:hover {
+  color: #9db1ff !important;
+}
+
+/* 加粗链接：保留蓝，靠字重区分而不是颜色 */
+article[role="main"] strong a,
+article[role="main"] b a,
+article[role="main"] a strong,
+article[role="main"] a b {
+  color: #2563EB !important;
+}
+body[data-theme="dark"] article[role="main"] strong a,
+body[data-theme="dark"] article[role="main"] b a,
+body[data-theme="dark"] article[role="main"] a strong,
+body[data-theme="dark"] article[role="main"] a b {
+  color: #6b8cff !important;
+}
+
+
+/* ============================================================
+   4. 代码
+     4a. 代码块容器（GitHub / Snowflake 风：冷灰底 + 左侧品牌竖边）
+     4b. 代码文字基线
+     4c. 语法高亮（浅色背景专用配色）
+     4d. MatrixOne 方言关键字（JS 注入的 .mo-keyword span）
+     4e. 行内 code
+     4f. 复制按钮（克制化）
+     4g. 暗色模式
+   ============================================================ */
+
+/* 4a 容器 —— Snowflake 风:冷灰底 + 主色左竖边
+   border-left 用 --mo-primary,跟随产品品牌槽:matrixone 蓝、intelligence 紫。
+   背景同时设 background-color 和 background,加 !important,
+   防 Pygments / sphinx-design / furo 偶发的简写覆盖。 */
+.highlight,
+div.highlight {
+  position: relative;
+  background-color: var(--mo-surface-code) !important;
+  background: var(--mo-surface-code) !important;
+  border: none;
+  border-left: 4px solid var(--mo-primary) !important;
+  border-radius: 0 var(--mo-radius-md) var(--mo-radius-md) 0 !important;
+  box-shadow: none;
+  margin: 16px 0;
+}
+/* 外层 wrapper(<div class="highlight-python">):透明,让内层 .highlight 拿底色 */
+[class^="highlight-"],
+[class*=" highlight-"] {
+  background: transparent;
+  margin: 20px 0;
+}
+
+/* 4b 代码文字 —— pre 透明,让 .highlight 的底色透出 */
+.highlight pre {
+  padding: 16px 20px;
+  font-size: 14.5px;
+  line-height: 1.7;
+  color: var(--mo-code-fg);
+  background: transparent !important;
+  font-family: var(--mo-font-mono);
+  font-feature-settings: "liga" 1;
+  overflow-x: auto;
+}
+
+/* 4c 语法高亮（light 模式） */
+body:not([data-theme="dark"]) .highlight .k,
+body:not([data-theme="dark"]) .highlight .kc,
+body:not([data-theme="dark"]) .highlight .kd,
+body:not([data-theme="dark"]) .highlight .kn,
+body:not([data-theme="dark"]) .highlight .kp,
+body:not([data-theme="dark"]) .highlight .kr,
+body:not([data-theme="dark"]) .highlight .kt {
+  color: var(--mo-code-keyword);
+  font-weight: 600;
+}
+
+body:not([data-theme="dark"]) .highlight .s,
+body:not([data-theme="dark"]) .highlight .s1,
+body:not([data-theme="dark"]) .highlight .s2,
+body:not([data-theme="dark"]) .highlight .sb,
+body:not([data-theme="dark"]) .highlight .sc,
+body:not([data-theme="dark"]) .highlight .sd,
+body:not([data-theme="dark"]) .highlight .se,
+body:not([data-theme="dark"]) .highlight .sh,
+body:not([data-theme="dark"]) .highlight .si,
+body:not([data-theme="dark"]) .highlight .sr,
+body:not([data-theme="dark"]) .highlight .ss,
+body:not([data-theme="dark"]) .highlight .sx,
+body:not([data-theme="dark"]) .highlight .dl {
+  color: var(--mo-code-string);
+}
+
+body:not([data-theme="dark"]) .highlight .m,
+body:not([data-theme="dark"]) .highlight .mb,
+body:not([data-theme="dark"]) .highlight .mf,
+body:not([data-theme="dark"]) .highlight .mh,
+body:not([data-theme="dark"]) .highlight .mi,
+body:not([data-theme="dark"]) .highlight .mo,
+body:not([data-theme="dark"]) .highlight .il {
+  color: var(--mo-code-number);
+}
+
+body:not([data-theme="dark"]) .highlight .c,
+body:not([data-theme="dark"]) .highlight .c1,
+body:not([data-theme="dark"]) .highlight .cm,
+body:not([data-theme="dark"]) .highlight .cp,
+body:not([data-theme="dark"]) .highlight .cs,
+body:not([data-theme="dark"]) .highlight .cd,
+body:not([data-theme="dark"]) .highlight .ch {
+  color: var(--mo-code-comment);
+  font-style: italic;
+}
+
+body:not([data-theme="dark"]) .highlight .o,
+body:not([data-theme="dark"]) .highlight .ow {
+  color: var(--mo-code-operator);
+}
+body:not([data-theme="dark"]) .highlight .nv,
+body:not([data-theme="dark"]) .highlight .vi,
+body:not([data-theme="dark"]) .highlight .vg {
+  color: var(--mo-code-variable);
+}
+body:not([data-theme="dark"]) .highlight .nf,
+body:not([data-theme="dark"]) .highlight .fm {
+  color: var(--mo-code-function);
+}
+
+/* 4d MatrixOne 方言关键字（JS 注入） */
+.highlight .mo-keyword {
+  color: var(--mo-code-dialect) !important;
+  font-weight: 600 !important;
+}
+
+/* 4e 行内 code —— 跟代码块同色系,加 !important 避免被表格/列表里的细规则盖住 */
+code.literal,
+.rst-content code.literal,
+p code,
+li code,
+td code,
+th code {
+  font-family: var(--mo-font-mono);
+  font-size: 0.875em;
+  padding: 2px 6px !important;
+  border-radius: var(--mo-radius-sm) !important;
+  background-color: var(--mo-surface-code) !important;
+  background: var(--mo-surface-code) !important;
+  color: var(--mo-code-fg) !important;
+  border: none;
+}
+/* 代码块内的 <code>(<pre><code>...</code></pre>)反置回透明:别叠出双重底色 */
+pre code,
+.highlight pre code {
+  background: transparent !important;
+  background-color: transparent !important;
+  padding: 0 !important;
+  border-radius: 0 !important;
+  font-size: inherit !important;
+}
+
+/* 4f 复制按钮（克制图标化） */
+button.copybtn {
+  position: absolute;
+  top: 12px;
+  right: 12px;
+  width: 24px;
+  height: 24px;
+  padding: 4px;
+  background: transparent;
+  border: none;
+  color: var(--mo-ink-300);
+  border-radius: var(--mo-radius-sm);
+  opacity: 0.8;
+  box-shadow: none;
+  transition: background .15s ease, color .15s ease, opacity .15s ease;
+}
+button.copybtn:hover {
+  background: rgba(0,0,0,0.06);
+  color: var(--mo-code-fg);
+  opacity: 1;
+}
+button.copybtn.success {
+  color: var(--mo-brand-soft);
+  opacity: 1;
+}
+
+/* 4f-2 折叠 + 全屏(由 code-collapse.js 注入) ——————————————————————
+   超过 12 行的代码块默认收 320px,底部蒙版 + 中央"展开"按钮,
+   右上角加一个全屏按钮(在 copybtn 左侧 32px)。 */
+.mo-code-collapsible {
+  position: relative;
+  overflow: hidden;
+  transition: max-height 0.3s ease;
+}
+/* 折叠状态:底部从代码块色到透明的渐变,文字渐隐到底色 */
+.mo-code-collapsed::after {
+  content: '';
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  height: 80px;
+  background: linear-gradient(
+    to bottom,
+    rgba(229, 233, 240, 0) 0%,
+    rgba(229, 233, 240, 0.7) 55%,
+    var(--mo-surface-code) 100%
+  );
+  pointer-events: none;
+  z-index: 1;
+}
+
+/* 中央浮动展开/收起按钮 */
+.mo-code-expand-btn {
+  position: absolute;
+  bottom: 10px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 2;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 5px 14px;
+  background: #ffffff;
+  border: 1px solid #D1D5DB;
+  border-radius: 999px;
+  cursor: pointer;
+  color: var(--mo-primary);
+  font-size: 12.5px;
+  font-weight: 500;
+  line-height: 1;
+  box-shadow: 0 2px 8px rgba(15, 23, 42, .08);
+  transition: background .15s, border-color .15s, box-shadow .15s, color .15s;
+}
+.mo-code-expand-btn:hover {
+  background: #F8FAFC;
+  border-color: var(--mo-primary);
+  color: var(--mo-primary);
+  box-shadow: 0 2px 12px rgba(59, 130, 246, .15);
+}
+.mo-code-expand-btn__icon {
+  display: inline-flex;
+  align-items: center;
+}
+
+/* 全屏按钮:右上角,放在 copybtn(right:12, 24x24)左侧,留 8px 间隔 */
+.mo-code-fullscreen-btn {
+  position: absolute;
+  top: 12px;
+  right: 44px;
+  z-index: 2;
+  width: 24px;
+  height: 24px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  background: transparent;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  color: #6B7280;
+  transition: background .15s, color .15s;
+}
+.mo-code-fullscreen-btn:hover {
+  background: rgba(15, 23, 42, .06);
+  color: #1F2937;
+}
+
+/* 全屏模态 */
+.mo-code-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(15, 23, 42, .55);
+  z-index: 9999;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 40px;
+  animation: mo-fade-in .18s ease-out;
+}
+.mo-code-modal {
+  position: relative;
+  width: 1000px;
+  max-width: 90vw;
+  max-height: 88vh;
+  padding: 24px 16px 16px;
+  background: #ffffff;
+  border-radius: 12px;
+  overflow: auto;
+  box-shadow: 0 24px 64px rgba(15, 23, 42, .35);
+}
+.mo-code-modal .highlight,
+.mo-code-modal div.highlight {
+  max-height: none !important;
+  overflow: visible !important;
+  margin: 0 !important;
+}
+.mo-code-modal .highlight pre {
+  max-height: none !important;
+}
+.mo-code-close-btn {
+  position: absolute;
+  top: 12px;
+  right: 12px;
+  z-index: 3;
+  width: 32px;
+  height: 32px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  background: #ffffff;
+  border: 1px solid #D1D5DB;
+  border-radius: 50%;
+  cursor: pointer;
+  color: #6B7280;
+  padding: 0;
+  transition: background .15s, color .15s, border-color .15s;
+}
+.mo-code-close-btn:hover {
+  background: #F3F4F6;
+  color: #1F2937;
+  border-color: #9CA3AF;
+}
+
+body.mo-code-modal-open { overflow: hidden; }   /* 模态打开时禁滚 */
+
+@keyframes mo-fade-in {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+
+/* 暗色 */
+body[data-theme="dark"] .mo-code-collapsed::after {
+  background: linear-gradient(
+    to bottom,
+    rgba(22, 27, 34, 0) 0%,
+    rgba(22, 27, 34, 0.7) 55%,
+    #161B22 100%
+  );
+}
+body[data-theme="dark"] .mo-code-expand-btn {
+  background: #1A2233;
+  border-color: #30363D;
+  color: var(--mo-brand-soft);
+}
+body[data-theme="dark"] .mo-code-expand-btn:hover {
+  background: #243049;
+  border-color: var(--mo-brand-soft);
+  box-shadow: 0 2px 12px rgba(88, 166, 255, .2);
+}
+body[data-theme="dark"] .mo-code-fullscreen-btn { color: #9CA3AF; }
+body[data-theme="dark"] .mo-code-fullscreen-btn:hover {
+  background: rgba(148, 163, 184, .12);
+  color: #E5E7EB;
+}
+body[data-theme="dark"] .mo-code-modal {
+  background: #0D1117;
+  box-shadow: 0 24px 64px rgba(0, 0, 0, .6);
+}
+body[data-theme="dark"] .mo-code-close-btn {
+  background: #1A2233;
+  border-color: #30363D;
+  color: #9CA3AF;
+}
+body[data-theme="dark"] .mo-code-close-btn:hover {
+  background: #243049;
+  color: #E5E7EB;
+}
+
+/* 4g 暗色模式代码 */
+body[data-theme="dark"] .highlight {
+  background: #161B22;
+  border-left-color: var(--mo-brand-soft);
+}
+body[data-theme="dark"] .highlight pre {
+  color: #E6EDF3;
+}
+body[data-theme="dark"] .highlight .k,
+body[data-theme="dark"] .highlight .kc,
+body[data-theme="dark"] .highlight .kd,
+body[data-theme="dark"] .highlight .kn,
+body[data-theme="dark"] .highlight .kp,
+body[data-theme="dark"] .highlight .kr,
+body[data-theme="dark"] .highlight .kt { color: #79C0FF; font-weight: 600; }
+
+body[data-theme="dark"] .highlight .s,
+body[data-theme="dark"] .highlight .s1,
+body[data-theme="dark"] .highlight .s2,
+body[data-theme="dark"] .highlight .sb,
+body[data-theme="dark"] .highlight .sc,
+body[data-theme="dark"] .highlight .sd,
+body[data-theme="dark"] .highlight .se,
+body[data-theme="dark"] .highlight .sh,
+body[data-theme="dark"] .highlight .si,
+body[data-theme="dark"] .highlight .sr,
+body[data-theme="dark"] .highlight .ss,
+body[data-theme="dark"] .highlight .sx,
+body[data-theme="dark"] .highlight .dl { color: #A5D6FF; }
+
+body[data-theme="dark"] .highlight .m,
+body[data-theme="dark"] .highlight .mb,
+body[data-theme="dark"] .highlight .mf,
+body[data-theme="dark"] .highlight .mh,
+body[data-theme="dark"] .highlight .mi,
+body[data-theme="dark"] .highlight .mo,
+body[data-theme="dark"] .highlight .il { color: #79C0FF; }
+
+body[data-theme="dark"] .highlight .c,
+body[data-theme="dark"] .highlight .c1,
+body[data-theme="dark"] .highlight .cm,
+body[data-theme="dark"] .highlight .cp,
+body[data-theme="dark"] .highlight .cs,
+body[data-theme="dark"] .highlight .cd,
+body[data-theme="dark"] .highlight .ch {
+  color: #8B949E;
+  font-style: italic;
+}
+
+body[data-theme="dark"] .highlight .o,
+body[data-theme="dark"] .highlight .ow { color: #FF7B72; }
+
+body[data-theme="dark"] .highlight .mo-keyword {
+  color: #D2A8FF !important;
+}
+
+body[data-theme="dark"] code.literal,
+body[data-theme="dark"] p code,
+body[data-theme="dark"] li code {
+  background: #161B22;
+  color: #E6EDF3;
+}
+body[data-theme="dark"] button.copybtn:hover {
+  background: rgba(255,255,255,0.08);
+  color: #E6EDF3;
+}
+
+
+/* ============================================================
+   5. 表格 —— Snowflake / GitHub 风
+     - 表头明显跳出(背景 #E5E9F0 与代码块同色,不再 #F6F8FA 极淡)
+     - 无竖线,靠列对齐+留白区分;行间 1px 极淡线
+     - box-shadow 0 0 0 1px 当外框,圆角 8px 给"卡片感"
+     - tbody 第一列略加粗,作为"行 ID"提示(参数名 / 字段名)
+     - hover 行微妙背景反馈
+   选择器覆盖 Sphinx 默认 .docutils、MyST、可能的 .rst-content / .bd-content 包裹层。
+   ============================================================ */
+article[role="main"] table,
+article[role="main"] table.docutils,
+.rst-content table,
+.bd-content table {
+  width: 100%;
+  border-collapse: separate !important;   /* separate 才让 border-radius + overflow:hidden 工作 */
+  border-spacing: 0;
+  border: none !important;
+  margin: 24px 0;
+  font-size: 14px;
+  color: #1F2937;
+  border-radius: 8px;
+  overflow: hidden;
+  box-shadow: 0 0 0 1px #E5E7EB !important;   /* 用阴影代替边框 */
+}
+article[role="main"] table th,
+article[role="main"] table td,
+article[role="main"] table.docutils th,
+article[role="main"] table.docutils td,
+.rst-content table th,
+.rst-content table td {
+  border-left: none !important;
+  border-right: none !important;
+  border-top: none !important;
+}
+
+/* 表头:深一档底色,与代码块同灰,清晰可辨 */
+article[role="main"] table thead th,
+article[role="main"] table.docutils thead th,
+.rst-content table thead th {
+  background: #E5E9F0 !important;
+  color: #111827 !important;
+  font-weight: 600 !important;
+  font-size: 14px !important;
+  text-align: left !important;
+  text-transform: none !important;
+  letter-spacing: 0.01em !important;
+  padding: 14px 20px !important;
+  border-bottom: 1px solid #C7D2E0 !important;
+  border-top: none !important;
+}
+
+/* 表体:行间细线,顶端对齐 */
+article[role="main"] table tbody td,
+article[role="main"] table.docutils tbody td,
+.rst-content table tbody td {
+  padding: 14px 20px !important;
+  border-bottom: 1px solid #E5E7EB !important;
+  border-top: none !important;
+  line-height: 1.6 !important;
+  vertical-align: top !important;
+  color: #1F2937 !important;
+  background: #ffffff !important;
+  font-size: 14px;
+}
+
+article[role="main"] table tbody tr:last-child td,
+.rst-content table tbody tr:last-child td {
+  border-bottom: none !important;
+}
+article[role="main"] table tbody tr:hover td,
+.rst-content table tbody tr:hover td {
+  background: #FAFBFC !important;
+}
+
+/* 第一列略加粗:参数名 / 字段名通常落在这里 */
+article[role="main"] table tbody td:first-child,
+.rst-content table tbody td:first-child {
+  font-weight: 500 !important;
+}
+
+/* 行内 code 在表格里:沿用全局色系,无需额外覆盖。但表头里的 code 需要在深底上加白底色块,这里专门处理。 */
+article[role="main"] table thead th code,
+.rst-content table thead th code {
+  background: #ffffff !important;
+  color: #1F2937 !important;
+}
+
+/* 暗色模式 */
+body[data-theme="dark"] article[role="main"] table,
+body[data-theme="dark"] .rst-content table {
+  box-shadow: 0 0 0 1px #30363D !important;
+  color: #C9D1D9;
+}
+body[data-theme="dark"] article[role="main"] table thead th,
+body[data-theme="dark"] .rst-content table thead th {
+  background: #161B22 !important;
+  color: #E6EDF3 !important;
+  border-bottom-color: #30363D !important;
+}
+body[data-theme="dark"] article[role="main"] table tbody td,
+body[data-theme="dark"] .rst-content table tbody td {
+  background: #0D1117 !important;
+  color: #C9D1D9 !important;
+  border-bottom-color: #21262D !important;
+}
+body[data-theme="dark"] article[role="main"] table tbody tr:hover td,
+body[data-theme="dark"] .rst-content table tbody tr:hover td {
+  background: #161B22 !important;
+}
+body[data-theme="dark"] article[role="main"] table thead th code,
+body[data-theme="dark"] .rst-content table thead th code {
+  background: #0D1117 !important;
+  color: #E6EDF3 !important;
+}
+
+
+/* ============================================================
+   6. 引用 & admonition  ——  Snowflake 同款分级配色
+     原则：饱和色背景跳出白底 + 主色左竖边 + 标题加粗彩字
+     色系：note/info/seealso→灰蓝；tip/hint→淡绿；warning/caution/attention→淡黄；
+           important/danger/error→饱和粉红
+     标题:15px / 600,与正文同号,加重视觉权重
+   ============================================================ */
+article blockquote {
+  border-left: 3px solid var(--mo-border-100);
+  background: transparent;
+  padding: 4px 16px;
+  color: var(--mo-ink-600);
+  margin: 1.25em 0;
+  font-style: normal;
+}
+
+/* 通用框架（覆盖 Furo 默认的饱和色） */
+.admonition {
+  background: var(--mo-surface-50);
+  border: none;
+  border-left: 3px solid var(--mo-border-100);
+  border-radius: var(--mo-radius-md);
+  padding: 16px 20px;
+  box-shadow: none;
+  margin: 1.25em 0;
+  color: var(--mo-ink-700);
+}
+.admonition > * { color: var(--mo-ink-700); }
+.admonition > p:not(.admonition-title) { margin: 0 0 0.75em; }
+.admonition > *:last-child { margin-bottom: 0; }
+
+/* 标题：去掉 Furo 的饱和底色，只留文字 + 图标。15px/600 给足视觉权重。 */
+.admonition > p.admonition-title {
+  background: transparent !important;
+  margin: 0 0 8px;
+  padding: 0 0 0 24px;      /* 左侧 24px 给图标让位 */
+  font-size: 15px;
+  font-weight: 600;
+  line-height: 1.3;
+  color: var(--mo-ink-900);
+}
+.admonition > p.admonition-title::before {
+  top: 2px;
+  left: 0;
+  width: 16px;
+  height: 16px;
+}
+
+/* —— tip / hint：饱和淡绿 —— */
+.admonition.tip,
+.admonition.hint {
+  background: #DCFCE7;
+  border-left-color: #10B981;
+}
+.admonition.tip > .admonition-title,
+.admonition.hint > .admonition-title {
+  color: #065F46;
+}
+.admonition.tip > .admonition-title::before,
+.admonition.hint > .admonition-title::before {
+  background-color: #10B981 !important;
+}
+
+/* —— note / info / seealso：Snowflake 同款灰蓝(再加深一档,#DDE3EA → #C7D2E0) —— */
+.admonition.note,
+.admonition.info,
+.admonition.seealso {
+  background-color: #C7D2E0 !important;
+  background: #C7D2E0 !important;
+  border-left-color: #3B82F6 !important;
+}
+.admonition.note > .admonition-title,
+.admonition.info > .admonition-title,
+.admonition.seealso > .admonition-title {
+  color: #1E3A8A;
+}
+.admonition.note > .admonition-title::before,
+.admonition.info > .admonition-title::before,
+.admonition.seealso > .admonition-title::before {
+  background-color: #3B82F6 !important;
+}
+
+/* —— warning / caution / attention：饱和淡黄 —— */
+.admonition.warning,
+.admonition.caution,
+.admonition.attention {
+  background: #FEF08A;
+  border-left-color: #F59E0B;
+}
+.admonition.warning > .admonition-title,
+.admonition.caution > .admonition-title,
+.admonition.attention > .admonition-title {
+  color: #713F12;
+}
+.admonition.warning > .admonition-title::before,
+.admonition.caution > .admonition-title::before,
+.admonition.attention > .admonition-title::before {
+  background-color: #F59E0B !important;
+}
+
+/* —— important / danger / error：Snowflake 同款饱和粉红
+   important 从警告分组挪到这里:这种语义在 Snowflake 文档里就是"红色严重提示"。 */
+.admonition.important,
+.admonition.danger,
+.admonition.error {
+  background: #FCE4E4;
+  border-left-color: #EF4444;
+}
+.admonition.important > .admonition-title,
+.admonition.danger > .admonition-title,
+.admonition.error > .admonition-title {
+  color: #991B1B;
+}
+.admonition.important > .admonition-title::before,
+.admonition.danger > .admonition-title::before,
+.admonition.error > .admonition-title::before {
+  background-color: #EF4444 !important;
+}
+
+/* 暗色模式：背景切换到对应深色，竖边色和图标色保持不变 */
+body[data-theme="dark"] .admonition             { background: #1a2338; color: #cbd5e1; }
+body[data-theme="dark"] .admonition > *         { color: #cbd5e1; }
+body[data-theme="dark"] .admonition.tip,
+body[data-theme="dark"] .admonition.hint        { background: rgba(16,185,129,.08); }
+body[data-theme="dark"] .admonition.note,
+body[data-theme="dark"] .admonition.info,
+body[data-theme="dark"] .admonition.seealso    { background: rgba(59,130,246,.08); }
+body[data-theme="dark"] .admonition.warning,
+body[data-theme="dark"] .admonition.caution,
+body[data-theme="dark"] .admonition.attention  { background: rgba(245,158,11,.08); }
+body[data-theme="dark"] .admonition.important,
+body[data-theme="dark"] .admonition.danger,
+body[data-theme="dark"] .admonition.error      { background: rgba(239,68,68,.08); }
+body[data-theme="dark"] .admonition > .admonition-title { color: #f3f4f6; }
+
+
+/* ============================================================
+   7. 左侧侧边栏
+   ============================================================ */
+
+/* 分组标题（caption）：去掉 uppercase + letter-spacing 复古样式 */
+.sidebar-tree .caption,
+.sidebar-tree p.caption,
+.sidebar-tree :not(.caption) > .caption-text {
+  text-transform: none !important;
+  letter-spacing: 0 !important;
+  font-size: 13px !important;
+  font-weight: 600 !important;
+  color: var(--mo-ink-900) !important;
+  padding: 16px 12px 8px !important;
+  margin: 0 !important;
+}
+body[data-theme="dark"] .sidebar-tree .caption,
+body[data-theme="dark"] .sidebar-tree p.caption,
+body[data-theme="dark"] .sidebar-tree :not(.caption) > .caption-text {
+  color: #f3f4f6 !important;
+}
+
+/* 默认非当前项：完整四态（a / a:link / a:visited / a:hover）一致 reset。
+   color 和 font-weight 都必须 !important —— 否则 Furo 的
+   `.current-page > .reference { font-weight: 700 }` 等高权重规则 +
+   浏览器 :visited 默认色会让"访问过的项"看上去更粗 / 紫。
+   `.bd-sidebar-primary` 是 pydata-sphinx-theme 的兜底命名，对 Furo 是 no-op。 */
+.sidebar-tree a,
+.sidebar-tree a:link,
+.sidebar-tree a:visited,
+.sidebar-tree .reference,
+.sidebar-tree .reference:link,
+.sidebar-tree .reference:visited,
+.sidebar-tree .toctree-l1 > .reference,
+.sidebar-tree .toctree-l1 > .reference:visited,
+.bd-sidebar-primary a,
+.bd-sidebar-primary a:link,
+.bd-sidebar-primary a:visited {
+  color: var(--mo-ink-600) !important;
+  font-weight: 400 !important;
+  text-decoration: none !important;
+  padding: 8px 12px;
+  border-radius: var(--mo-radius);
+  transition: background .1s ease, color .1s ease;
+}
+.sidebar-tree a:hover,
+.sidebar-tree a:visited:hover,
+.sidebar-tree .reference:hover,
+.sidebar-tree .toctree-l1 > .reference:hover,
+.bd-sidebar-primary a:hover,
+.bd-sidebar-primary a:visited:hover {
+  background: var(--mo-surface-50);
+  color: var(--mo-ink-800) !important;
+  font-weight: 400 !important;
+  text-decoration: none !important;
+}
+
+/* 当前项：淡蓝底 + 中蓝字，字重 500（仅靠"颜色 + 一点点更重"区分），无竖条。
+   .current 必须放在通用规则之后才能覆盖；同样需要 !important。 */
+.sidebar-tree a.current,
+.sidebar-tree a.current:link,
+.sidebar-tree a.current:visited,
+.sidebar-tree .current-page > a.reference,
+.sidebar-tree .current-page > a.reference:visited,
+.bd-sidebar-primary a.current,
+.bd-sidebar-primary a.current:visited {
+  background: var(--mo-surface-150) !important;
+  color: var(--mo-brand-sidebar) !important;
+  font-weight: 500 !important;
+  border-left: none !important;
+}
+/* Furo 默认给当前页的标题外面套 <strong>，强制 reset 字重 */
+.sidebar-tree a.current strong,
+.sidebar-tree .current-page > a strong {
+  font-weight: 500 !important;
+}
+
+body[data-theme="dark"] .sidebar-tree a,
+body[data-theme="dark"] .sidebar-tree a:link,
+body[data-theme="dark"] .sidebar-tree a:visited,
+body[data-theme="dark"] .sidebar-tree .reference,
+body[data-theme="dark"] .sidebar-tree .reference:visited,
+body[data-theme="dark"] .sidebar-tree .toctree-l1 > .reference {
+  color: #94a3b8 !important;
+}
+body[data-theme="dark"] .sidebar-tree a:hover,
+body[data-theme="dark"] .sidebar-tree .reference:hover,
+body[data-theme="dark"] .sidebar-tree .toctree-l1 > .reference:hover {
+  background: rgba(148,163,184,.08);
+  color: #e2e8f0 !important;
+}
+body[data-theme="dark"] .sidebar-tree a.current,
+body[data-theme="dark"] .sidebar-tree a.current:visited,
+body[data-theme="dark"] .sidebar-tree .current-page > a.reference {
+  background: rgba(107,140,255,.12) !important;
+  color: #6b8cff !important;
+}
+
+
+/* ============================================================
+   8. 右侧 TOC（页面大纲）
+   ============================================================ */
+/* TOC 标题：隐藏 Furo 默认 "On this page" 文本，用 ::before 注入更克制的版本 */
+.toc-title { display: none !important; }
+.toc-title-container {
+  padding: 12px;
+  margin: 0 0 4px;
+}
+.toc-title-container::before {
+  content: "本页内容";
+  display: block;
+  font-size: 11px;
+  font-weight: 600;
+  color: #9CA3AF;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  padding: 0 0 8px;
+  border-bottom: 1px solid #F1F5F9;
+}
+html[lang^="en"] .toc-title-container::before { content: "On this page"; }
+body[data-theme="dark"] .toc-title-container::before {
+  color: #6E7681;
+  border-bottom-color: #21262D;
+}
+
+/* 隐藏 Furo 默认的页脚（Copyright + Made with Sphinx/Furo） */
+.bottom-of-page { display: none !important; }
+
+.toc-tree a {
+  color: var(--mo-ink-600);
+  font-weight: 400;
+  border-left: 2px solid transparent;
+  padding-left: 12px;
+  margin-left: -2px;
+  transition: color .1s ease, border-color .1s ease;
+}
+.toc-tree a:hover {
+  color: var(--mo-ink-800);
+  text-decoration: none;
+}
+/* 当前项：主色文字 + 2px 主色竖条，字重 500 */
+.toc-tree a.scroll-current,
+.toc-tree a.current {
+  color: var(--mo-brand-soft);
+  font-weight: 500;
+  border-left-color: var(--mo-brand-soft);
+}
+
+body[data-theme="dark"] .toc-tree a { color: #94a3b8; }
+body[data-theme="dark"] .toc-tree a:hover { color: #e2e8f0; }
+body[data-theme="dark"] .toc-tree a.scroll-current,
+body[data-theme="dark"] .toc-tree a.current {
+  color: #6b8cff;
+  border-left-color: #6b8cff;
+}
+
+/* （旧版右栏 feedback 已移除，新卡片样式见 §17 文末） */
+
+
+/* ============================================================
+   9. 顶栏（单行 64px：Logo · 主导航 · [弹性空白] · 搜索/暗色/语言）
+     9a. 容器（单行）
+     9b. Logo + MatrixOne Docs 字
+     9c. 主导航（中间，inline tabs，距文字 8px 下划线）
+     9d. 工具区（margin-left:auto 推到最右）
+     9e. 搜索框
+     9f. 暗色按钮（Furo 移过来）
+     9g. 语言切换 EN 按钮
+     9h. 内容下移 + 响应式
+   ============================================================ */
+
+/* 9a 容器 */
+.mo-topbar {
+  position: fixed;
+  top: 0; left: 0; right: 0;
+  z-index: 100;
+  height: var(--mo-topbar-h);
+  background: var(--color-background-primary);
+  border-bottom: 1px solid #E5E7EB;
+}
+.mo-topbar__inner {
+  display: flex;
+  align-items: center;
+  height: 100%;
+  padding: 0 32px;
+  gap: 32px;
+}
+
+/* 9b Logo 区（官方 MO lockup + Docs 小字；明暗两套图） */
+.mo-topbar__brand {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex: 0 0 auto;
+  text-decoration: none;
+  color: inherit;
+}
+.mo-topbar__brand:hover { text-decoration: none; }
+.mo-topbar__logo {
+  height: 28px;
+  width: auto;
+  display: block;
+}
+.mo-topbar__logo--dark { display: none; }
+body[data-theme="dark"] .mo-topbar__logo--light { display: none; }
+body[data-theme="dark"] .mo-topbar__logo--dark  { display: block; }
+
+.mo-topbar__docs {
+  font-size: 14px;
+  font-weight: 400;
+  color: #6B7280;
+  line-height: 1;
+  border-left: none;
+  padding-left: 0;
+}
+body[data-theme="dark"] .mo-topbar__docs  { color: #9ca3af; }
+
+/* 9c 主导航（inline tabs，下划线在文字下方 8px） */
+.mo-topbar__tabs {
+  display: flex;
+  gap: 28px;
+  flex: 0 0 auto;
+}
+.mo-topbar__tab,
+.mo-topbar__tab:link,
+.mo-topbar__tab:visited {
+  display: inline-flex;
+  align-items: center;
+  padding: 8px 0;
+  font-size: 14px;
+  font-weight: 500 !important;
+  color: #374151 !important;
+  text-decoration: none !important;
+  border-bottom: 2px solid transparent;
+  white-space: nowrap;
+  transition: color .15s, border-color .15s;
+}
+.mo-topbar__tab:hover,
+.mo-topbar__tab:visited:hover {
+  color: #1F2937 !important;
+  font-weight: 500 !important;
+  text-decoration: none !important;
+}
+.mo-topbar__tab--active,
+.mo-topbar__tab--active:link,
+.mo-topbar__tab--active:visited {
+  color: #2563EB !important;
+  font-weight: 500 !important;
+  border-bottom-color: #2563EB;
+}
+body[data-theme="dark"] .mo-topbar__tab,
+body[data-theme="dark"] .mo-topbar__tab:link,
+body[data-theme="dark"] .mo-topbar__tab:visited       { color: #9ca3af !important; }
+body[data-theme="dark"] .mo-topbar__tab:hover         { color: #e5e7eb !important; }
+body[data-theme="dark"] .mo-topbar__tab--active,
+body[data-theme="dark"] .mo-topbar__tab--active:visited {
+  color: #6b8cff !important;
+  border-bottom-color: #6b8cff;
+}
+
+/* 9d 工具区（自动靠右） */
+.mo-topbar__tools {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-left: auto;
+  flex: 0 0 auto;
+}
+
+/* 9e 搜索框 320 × 36 */
+.mo-topbar__search {
+  position: relative;
+  width: 320px;
+}
+.mo-topbar__search-icon {
+  position: absolute;
+  left: 12px;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 16px;
+  height: 16px;
+  color: #6B7280;
+  pointer-events: none;
+}
+.mo-topbar__search input {
+  width: 100%;
+  height: 36px;
+  padding: 0 44px 0 38px;
+  border-radius: 8px;
+  border: 1px solid #E5E7EB;
+  background: #F8FAFC;
+  color: #1F2937;
+  font-size: 14px;
+  outline: none;
+  transition: border-color .15s, box-shadow .15s, background .15s;
+}
+.mo-topbar__search input::placeholder { color: #9CA3AF; }
+.mo-topbar__search input:focus {
+  border-color: #3B82F6;
+  background: #FFFFFF;
+  box-shadow: 0 0 0 3px rgba(59,130,246,0.1);
+}
+.mo-topbar__search kbd {
+  position: absolute;
+  right: 8px;
+  top: 50%;
+  transform: translateY(-50%);
+  padding: 2px 6px;
+  font-family: var(--mo-font-mono);
+  font-size: 11px;
+  font-weight: 500;
+  color: #6B7280;
+  background: #F3F4F6;
+  border: none;
+  border-radius: 4px;
+  pointer-events: none;
+  line-height: 1;
+}
+body[data-theme="dark"] .mo-topbar__search input {
+  background: #161B22;
+  border-color: #30363D;
+  color: #E6EDF3;
+}
+body[data-theme="dark"] .mo-topbar__search input::placeholder { color: #6E7781; }
+body[data-theme="dark"] .mo-topbar__search kbd {
+  background: #21262D;
+  color: #9CA3AF;
+}
+
+/* 9f Furo 暗色切换按钮（被搬到 .mo-topbar__actions 里） */
+.mo-topbar__actions {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.mo-topbar__actions .theme-toggle-container { display: flex !important; }
+.mo-topbar__actions .theme-toggle {
+  width: 36px;
+  height: 36px;
+  border: none;
+  border-radius: 50%;
+  background: transparent;
+  color: #6B7280;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background .15s, color .15s;
+}
+.mo-topbar__actions .theme-toggle:hover {
+  background: #F3F4F6;
+  color: #1F2937;
+}
+body[data-theme="dark"] .mo-topbar__actions .theme-toggle:hover {
+  background: rgba(148,163,184,.12);
+  color: #e5e7eb;
+}
+
+/* 9g 语言切换按钮（重新定义，覆盖原 pill 样式） */
+.mo-topbar__actions .mo-lang-pill {
+  height: 32px;
+  padding: 0 12px;
+  background: transparent;
+  border: 1px solid #E5E7EB;
+  border-radius: 6px;
+  font-size: 13px;
+  font-weight: 500;
+  color: #374151;
+  letter-spacing: 0;
+  margin-right: 0;
+  transition: background .15s, border-color .15s;
+}
+.mo-topbar__actions .mo-lang-pill:hover {
+  background: #F8FAFC;
+  border-color: #E5E7EB;
+  color: #1F2937;
+  transform: none;
+}
+body[data-theme="dark"] .mo-topbar__actions .mo-lang-pill {
+  background: transparent;
+  border-color: #30363D;
+  color: #9ca3af;
+}
+body[data-theme="dark"] .mo-topbar__actions .mo-lang-pill:hover {
+  background: rgba(148,163,184,.08);
+  color: #e5e7eb;
+  border-color: #30363D;
+}
+
+/* 9g-2 版本切换 pill + 下拉菜单(占位,只有 latest) */
+.mo-version-switcher {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+.mo-version-pill {
+  height: 32px;
+  padding: 0 10px 0 12px;
+  background: transparent;
+  border: 1px solid #E5E7EB;
+  border-radius: 6px;
+  color: #374151;
+  font-size: 13px;
+  font-weight: 500;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  cursor: pointer;
+  transition: background .15s, border-color .15s, color .15s;
+}
+.mo-version-pill:hover,
+.mo-version-switcher.is-open .mo-version-pill {
+  background: #F8FAFC;
+  color: #1F2937;
+}
+.mo-version-pill__chevron {
+  width: 12px;
+  height: 12px;
+  transition: transform .15s;
+}
+.mo-version-switcher.is-open .mo-version-pill__chevron {
+  transform: rotate(180deg);
+}
+.mo-version-menu {
+  position: absolute;
+  top: calc(100% + 6px);
+  right: 0;
+  min-width: 220px;
+  padding: 8px;
+  background: #fff;
+  border: 1px solid #E5E7EB;
+  border-radius: 8px;
+  box-shadow: 0 8px 24px rgba(15,23,42,.08), 0 2px 6px rgba(15,23,42,.04);
+  display: none;
+  z-index: 1100;
+}
+.mo-version-switcher.is-open .mo-version-menu { display: block; }
+.mo-version-menu__heading {
+  padding: 4px 8px 6px;
+  font-size: 11px;
+  font-weight: 600;
+  color: #6B7280;
+  text-transform: uppercase;
+  letter-spacing: .04em;
+}
+.mo-version-menu__item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 6px 8px;
+  border-radius: 6px;
+  font-size: 13px;
+  color: #1F2937;
+  cursor: default;
+}
+.mo-version-menu__item.is-active { background: #EFF6FF; color: #004af0; }
+.mo-version-menu__item.is-active svg { width: 12px; height: 12px; }
+.mo-version-menu__hint {
+  margin-top: 4px;
+  padding: 6px 8px;
+  border-top: 1px solid #F1F5F9;
+  font-size: 11.5px;
+  color: #94A3B8;
+  font-style: italic;
+}
+
+body[data-theme="dark"] .mo-version-pill {
+  background: transparent;
+  border-color: #30363D;
+  color: #9ca3af;
+}
+body[data-theme="dark"] .mo-version-pill:hover,
+body[data-theme="dark"] .mo-version-switcher.is-open .mo-version-pill {
+  background: rgba(148,163,184,.08);
+  color: #e5e7eb;
+}
+body[data-theme="dark"] .mo-version-menu {
+  background: #0d1117;
+  border-color: #30363D;
+  box-shadow: 0 8px 24px rgba(0,0,0,.4);
+}
+body[data-theme="dark"] .mo-version-menu__heading { color: #94A3B8; }
+body[data-theme="dark"] .mo-version-menu__item { color: #e5e7eb; }
+body[data-theme="dark"] .mo-version-menu__item.is-active {
+  background: rgba(107,140,255,.15);
+  color: #6b8cff;
+}
+body[data-theme="dark"] .mo-version-menu__hint {
+  border-top-color: #30363D;
+  color: #6B7280;
+}
+
+/* 9h 内容下移 + Furo sticky 修正 */
+body.mo-has-topbar { padding-top: var(--mo-topbar-h); }
+body.mo-has-topbar .sidebar-sticky,
+body.mo-has-topbar .toc-sticky {
+  top: var(--mo-topbar-h);
+  height: calc(100vh - var(--mo-topbar-h));
+}
+body.mo-has-topbar .sidebar-brand,
+body.mo-has-topbar .sidebar-search-container { display: none; }
+
+/* 响应式 */
+@media (max-width: 1100px) {
+  .mo-topbar__search { width: 240px; }
+}
+@media (max-width: 960px) {
+  .mo-topbar__inner { padding: 0 16px; gap: 16px; }
+  .mo-topbar__tabs { gap: 18px; overflow-x: auto; scrollbar-width: none; }
+  .mo-topbar__tabs::-webkit-scrollbar { display: none; }
+  .mo-topbar__search { width: 200px; }
+  .mo-topbar__search kbd { display: none; }
+}
+@media (max-width: 640px) {
+  .mo-topbar__title,
+  .mo-topbar__docs { display: none; }
+  .mo-topbar__search { width: 160px; }
+  .mo-topbar__search input { font-size: 16px; }
+  article[role="main"] { padding: 0 20px; }
+}
+
+
+/* ============================================================
+  10. sphinx-design tab-set（Linux / macOS 切换）—— Segment 风格
+   ============================================================ */
+.sd-tab-set {
+  /* 必须保留 sphinx-design 的 flex + wrap:.sd-tab-content 用 width:100% 换到下一行实现"内容在标签下"。
+     原先用 inline-flex + nowrap 想做紧凑 Segment pill,结果阻断换行,
+     标签被压到 min-content(中文逐字成列)、内容也乱了。 */
+  display: flex !important;
+  flex-wrap: wrap !important;
+  background: var(--mo-surface-100);
+  padding: 4px;
+  border-radius: var(--mo-radius-md);
+  margin: 1.25em 0;
+}
+/* 每个 tab 标签 */
+.sd-tab-set > label,
+.sd-tab-set > .sd-tab-label {
+  padding: 6px 16px;
+  font-size: 14px;
+  font-weight: 500;
+  color: var(--mo-ink-350);
+  background: transparent;
+  border: none;
+  border-radius: var(--mo-radius);
+  cursor: pointer;
+  transition: all 0.15s ease;
+}
+.sd-tab-set > label:hover,
+.sd-tab-set > .sd-tab-label:hover {
+  color: var(--mo-ink-700);
+  background: transparent;
+}
+/* 激活 tab */
+.sd-tab-set > input:checked + label,
+.sd-tab-set > input:checked + .sd-tab-label {
+  color: var(--mo-ink-800) !important;
+  background: #FFFFFF !important;
+  border-color: transparent !important;
+  box-shadow: 0 1px 2px rgba(0,0,0,0.05);
+}
+/* 内容区恢复常态，取消 sphinx-design 默认的上下 box-shadow 线 */
+.sd-tab-content {
+  box-shadow: none !important;
+  padding: 16px 0 0 !important;
+}
+
+body[data-theme="dark"] .sd-tab-set {
+  background: #1a2338;
+}
+body[data-theme="dark"] .sd-tab-set > input:checked + label,
+body[data-theme="dark"] .sd-tab-set > input:checked + .sd-tab-label {
+  background: #0f172a !important;
+  color: #e5e7eb !important;
+  box-shadow: 0 1px 2px rgba(0,0,0,0.3);
+}
+
+
+/* ============================================================
+  11. 首页 Hero（保留品牌色）
+   ============================================================ */
+.mo-hero-title {
+  padding: 32px 0 28px;
+  border-bottom: 1px solid var(--mo-border-100);
+  margin-bottom: 12px;
+}
+.mo-hero-title > h1 {
+  font-size: 2.4rem;
+  font-weight: 700;
+  letter-spacing: -.02em;
+  background: var(--mo-gradient-brand);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  margin: 0 0 16px;
+  padding: 0;
+  border: none;
+  line-height: 1.15;
+}
+.mo-hero-title > h1 .headerlink { display: none; }
+.mo-subtitle {
+  font-size: 1.05rem;
+  color: var(--mo-ink-600);
+  max-width: 680px;
+  line-height: 1.7;
+  margin: 0;
+}
+
+
+/* ============================================================
+  12. sphinx-design 卡片
+   ============================================================ */
+.sd-card {
+  border: 1px solid var(--mo-border-100) !important;
+  border-radius: var(--mo-radius-lg) !important;
+  box-shadow: none;
+  transition: border-color .15s ease, box-shadow .15s ease;
+  background: var(--color-background-primary);
+}
+.sd-card:hover {
+  border-color: var(--mo-primary) !important;
+  box-shadow: 0 4px 12px rgba(0,74,240,.06);
+}
+.sd-card .sd-card-title {
+  font-weight: 600;
+  color: var(--mo-ink-900);
+}
+body[data-theme="dark"] .sd-card .sd-card-title { color: #f3f4f6; }
+.sd-card a.sd-stretched-link::after { border-radius: var(--mo-radius-lg); }
+
+/* —— intelligence 首页卡片图标块（紫色调，与 matrixone 蓝色调区分）—— */
+/* 仅作用于由 icons.js 注入了 .mo-card-icon 的卡片（即 intelligence 首页）  */
+.mo-card-icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 44px;
+  height: 44px;
+  border-radius: 10px;
+  background: #f5f3ff;
+  color: #8b5cf6;
+  margin: 4px 0 14px;
+}
+.mo-card-icon svg { width: 22px; height: 22px; }
+body[data-theme="dark"] .mo-card-icon {
+  background: rgba(139, 92, 246, 0.16);
+  color: #c4b5fd;
+}
+/* :has() 让 hover 紫色仅出现在带图标的卡上，matrixone 蓝色 hover 不受影响 */
+.sd-card:has(.mo-card-icon):hover {
+  border-color: #8b5cf6 !important;
+  box-shadow: 0 4px 12px rgba(139, 92, 246, 0.10);
+}
+body[data-theme="dark"] .sd-card:has(.mo-card-icon):hover {
+  border-color: #a78bfa !important;
+  box-shadow: 0 4px 14px rgba(167, 139, 250, 0.16);
+}
+.sd-card:has(.mo-card-icon):hover .mo-card-icon {
+  background: #ede9fe;
+}
+body[data-theme="dark"] .sd-card:has(.mo-card-icon):hover .mo-card-icon {
+  background: rgba(139, 92, 246, 0.24);
+}
+
+
+/* ============================================================
+  13. 语言 pill
+   ============================================================ */
+.theme-toggle-container .mo-lang-pill { margin-right: 10px; }
+.mo-lang-pill {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  height: 28px;
+  padding: 0 12px;
+  font-size: .8rem;
+  font-weight: 600;
+  line-height: 1;
+  color: var(--mo-primary);
+  background: #e8efff;
+  border: 1px solid transparent;
+  border-radius: 999px;
+  text-decoration: none;
+  letter-spacing: .02em;
+  transition: background .15s ease, border-color .15s ease;
+}
+.mo-lang-pill:hover {
+  background: #fff;
+  border-color: var(--mo-primary);
+  text-decoration: none;
+}
+body[data-theme="dark"] .mo-lang-pill {
+  color: #9db1ff;
+  background: rgba(107,140,255,.14);
+}
+body[data-theme="dark"] .mo-lang-pill:hover {
+  background: rgba(107,140,255,.22);
+  border-color: #6b8cff;
+}
+.mo-lang-pill--floating {
+  position: fixed;
+  top: 14px;
+  right: 16px;
+  z-index: 50;
+}
+
+
+/* ============================================================
+  14. 助手 FAB + 抽屉（智能演示版）
+     14a. FAB 圆按钮 + 遮罩
+     14b. 抽屉框架（header / body / input）
+     14c. 欢迎区 + 推荐问题
+     14d. 消息气泡（用户 / 助手 / 思考中）
+     14e. 助手消息内嵌：代码块 / inline code / 列表 / 引用
+     14f. 来源 / 跟进 / 反馈
+     14g. 输入区（计数器 / textarea / + 按钮 / send 按钮）
+     14h. Toast
+   ============================================================ */
+
+/* 14a FAB + 遮罩（保留品牌色） */
+.mo-fab {
+  position: fixed;
+  right: 24px;
+  bottom: 24px;
+  width: 56px;
+  height: 56px;
+  border-radius: 50%;
+  border: none;
+  cursor: pointer;
+  background: var(--mo-gradient-assist);
+  color: #fff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: var(--mo-shadow-lg);
+  z-index: 9998;
+  transition: transform .2s, box-shadow .2s;
+}
+.mo-fab:hover {
+  transform: scale(1.06);
+  box-shadow: 0 16px 40px rgba(139,124,240,.35), 0 6px 16px rgba(0,74,240,.25);
+}
+.mo-fab svg { width: 26px; height: 26px; }
+
+.mo-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(20,33,64,.4);
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity .25s;
+  z-index: 9998;
+}
+.mo-overlay.is-open { opacity: 1; pointer-events: auto; }
+
+/* 14b 抽屉框架 */
+.mo-drawer {
+  position: fixed;
+  top: 0;
+  right: 0;
+  height: 100vh;
+  width: 420px;
+  max-width: 100vw;
+  background: #FFFFFF;
+  box-shadow: -8px 0 32px rgba(20,33,64,.12);
+  transform: translateX(100%);
+  transition: transform .3s cubic-bezier(.4,0,.2,1);
+  z-index: 9999;
+  display: flex;
+  flex-direction: column;
+}
+.mo-drawer.is-open { transform: translateX(0); }
+body[data-theme="dark"] .mo-drawer { background: #0f172a; }
+
+.mo-drawer__header {
+  padding: 14px 18px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  border-bottom: 1px solid var(--mo-border-100);
+  flex-shrink: 0;
+}
+.mo-drawer__brand {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--mo-ink-900);
+}
+.mo-drawer__brand-icon {
+  width: 28px;
+  height: 28px;
+  border-radius: 8px;
+  background: var(--mo-gradient-assist);
+  color: #fff;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+.mo-drawer__brand-icon svg { width: 14px; height: 14px; }
+body[data-theme="dark"] .mo-drawer__brand { color: #e5e7eb; }
+
+.mo-drawer__close {
+  width: 32px; height: 32px;
+  border: none; background: transparent; cursor: pointer;
+  border-radius: 8px;
+  color: var(--mo-ink-600);
+  display: flex; align-items: center; justify-content: center;
+  transition: background .15s, color .15s;
+}
+.mo-drawer__close:hover { background: var(--mo-surface-50); color: var(--mo-ink-900); }
+.mo-drawer__close svg { width: 14px; height: 14px; }
+
+.mo-drawer__body {
+  flex: 1;
+  overflow-y: auto;
+  padding: 0 0 8px;
+  display: flex;
+  flex-direction: column;
+}
+
+/* 14c 欢迎区 + 推荐问题（首次打开） */
+.mo-drawer__welcome {
+  padding: 32px 24px 16px;
+  text-align: center;
+  flex-shrink: 0;
+}
+.mo-drawer__welcome-icon {
+  width: 56px;
+  height: 56px;
+  margin: 0 auto 14px;
+  background: var(--mo-gradient-assist);
+  border-radius: 16px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #fff;
+  box-shadow: 0 8px 24px rgba(139,124,240,.25);
+}
+.mo-drawer__welcome-icon svg { width: 28px; height: 28px; }
+.mo-drawer__welcome h3 {
+  margin: 0 0 6px;
+  font-size: 17px;
+  font-weight: 600;
+  color: var(--mo-ink-900);
+}
+.mo-drawer__welcome p {
+  margin: 0;
+  font-size: 13px;
+  color: var(--mo-ink-600);
+  line-height: 1.55;
+}
+body[data-theme="dark"] .mo-drawer__welcome h3 { color: #f3f4f6; }
+body[data-theme="dark"] .mo-drawer__welcome p  { color: #9ca3af; }
+
+.mo-drawer__suggestions {
+  padding: 8px 18px 16px;
+  flex-shrink: 0;
+}
+.mo-drawer__sug-head {
+  font-size: 11px;
+  font-weight: 600;
+  color: var(--mo-ink-500);
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  margin: 0 4px 8px;
+}
+.mo-drawer__sug-list {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+.mo-drawer__sug {
+  text-align: left;
+  padding: 10px 12px;
+  background: #F8FAFC;
+  border: 1px solid #E5E7EB;
+  border-radius: 10px;
+  font-size: 13px;
+  color: #374151;
+  cursor: pointer;
+  transition: background .15s, border-color .15s, color .15s;
+  font-family: inherit;
+}
+.mo-drawer__sug:hover {
+  background: #FFFFFF;
+  border-color: #2563EB;
+  color: #2563EB;
+}
+body[data-theme="dark"] .mo-drawer__sug {
+  background: #161B22;
+  border-color: #30363D;
+  color: #cbd5e1;
+}
+body[data-theme="dark"] .mo-drawer__sug:hover {
+  background: #1a2338;
+  border-color: #6b8cff;
+  color: #6b8cff;
+}
+
+/* 一旦开始对话，欢迎区/推荐区收起 */
+.mo-drawer--interacted .mo-drawer__welcome,
+.mo-drawer--interacted .mo-drawer__suggestions { display: none; }
+
+/* 14d 消息气泡 */
+.mo-drawer__messages {
+  padding: 16px 18px 8px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  flex-shrink: 0;
+}
+.mo-msg {
+  font-size: 13.5px;
+  line-height: 1.6;
+  word-wrap: break-word;
+}
+.mo-msg--user {
+  align-self: flex-end;
+  max-width: 80%;
+  background: #3B82F6;
+  color: #FFFFFF;
+  padding: 10px 14px;
+  border-radius: 16px 16px 4px 16px;
+}
+.mo-msg--bot {
+  align-self: flex-start;
+  max-width: 92%;
+  background: #F9FAFB;
+  color: #1F2937;
+  padding: 12px 16px;
+  border-radius: 16px 16px 16px 4px;
+}
+body[data-theme="dark"] .mo-msg--bot {
+  background: #161B22;
+  color: #E6EDF3;
+}
+
+/* 助手消息头：小渐变 sparkles + "MatrixOne 助手" 标签 */
+.mo-msg__head {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  margin-bottom: 6px;
+}
+.mo-msg__head svg {
+  width: 14px;
+  height: 14px;
+  color: #8b7cf0;
+}
+.mo-msg__head > span {
+  font-size: 11px;
+  font-weight: 500;
+  color: var(--mo-ink-500);
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+}
+
+/* 思考中三个点 */
+.mo-msg--thinking { padding: 14px 16px; }
+.mo-msg--thinking span {
+  display: inline-block;
+  width: 6px; height: 6px;
+  margin: 0 2px;
+  background: #94A3B8;
+  border-radius: 50%;
+  animation: mo-thinking 1.4s infinite;
+}
+.mo-msg--thinking span:nth-child(2) { animation-delay: .2s; }
+.mo-msg--thinking span:nth-child(3) { animation-delay: .4s; }
+@keyframes mo-thinking {
+  0%, 60%, 100% { opacity: 0.3; transform: scale(0.85); }
+  30%           { opacity: 1;   transform: scale(1); }
+}
+
+/* 14e 助手消息正文：段落、列表、引用、行内 code、代码块 */
+.mo-msg__body p { margin: 0 0 0.6em; }
+.mo-msg__body p:last-child { margin: 0; }
+.mo-msg__body strong { font-weight: 600; color: #111827; }
+body[data-theme="dark"] .mo-msg__body strong { color: #f3f4f6; }
+.mo-msg__body ul {
+  margin: 0 0 0.6em;
+  padding-left: 1.2em;
+}
+.mo-msg__body li { margin: 0 0 0.2em; }
+.mo-msg__body blockquote {
+  margin: 0 0 0.6em;
+  padding: 6px 12px;
+  background: #FEF3C7;
+  border-left: 2px solid #F59E0B;
+  border-radius: 0 6px 6px 0;
+  color: #78350F;
+  font-size: 12.5px;
+}
+body[data-theme="dark"] .mo-msg__body blockquote {
+  background: rgba(245,158,11,.08);
+  color: #fde68a;
+}
+.mo-msg__body code {
+  background: #F1F5F9;
+  color: #475569;
+  padding: 1px 5px;
+  border-radius: 3px;
+  font-family: var(--mo-font-mono);
+  font-size: 0.88em;
+}
+body[data-theme="dark"] .mo-msg__body code {
+  background: rgba(148,163,184,.14);
+  color: #cbd5e1;
+}
+
+/* 助手消息内的代码块（紧凑版，复用同一套语法色） */
+.mo-msg-code {
+  margin: 8px 0;
+  padding: 12px 14px;
+  background: #F6F8FA;
+  border-left: 2px solid #3B82F6;
+  border-radius: 0 8px 8px 0;
+  font-family: var(--mo-font-mono);
+  font-size: 12.5px;
+  line-height: 1.55;
+  color: #24292F;
+  overflow-x: auto;
+  white-space: pre;
+}
+.mo-msg-code .k          { color: #0969DA; font-weight: 600; }
+.mo-msg-code .mo-keyword { color: #8250DF; font-weight: 600; }
+.mo-msg-code .s          { color: #0A3069; }
+.mo-msg-code .m          { color: #0550AE; }
+.mo-msg-code .c          { color: #6E7781; font-style: italic; }
+.mo-msg-code .nv         { color: #953800; }
+body[data-theme="dark"] .mo-msg-code {
+  background: #161B22;
+  border-left-color: #6b8cff;
+  color: #E6EDF3;
+}
+body[data-theme="dark"] .mo-msg-code .k          { color: #79C0FF; }
+body[data-theme="dark"] .mo-msg-code .mo-keyword { color: #D2A8FF; }
+body[data-theme="dark"] .mo-msg-code .s          { color: #A5D6FF; }
+body[data-theme="dark"] .mo-msg-code .m          { color: #79C0FF; }
+body[data-theme="dark"] .mo-msg-code .c          { color: #8B949E; }
+
+/* 14f 来源 / 跟进 / 反馈 */
+.mo-msg__sources,
+.mo-msg__followups {
+  margin-top: 10px;
+  padding-top: 10px;
+  border-top: 1px solid #E5E7EB;
+}
+body[data-theme="dark"] .mo-msg__sources,
+body[data-theme="dark"] .mo-msg__followups {
+  border-top-color: #30363D;
+}
+.mo-msg__extras-head {
+  font-size: 11px;
+  font-weight: 500;
+  color: var(--mo-ink-500);
+  margin-bottom: 6px;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+/* 来源 pill */
+.mo-msg__source {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  background: #EFF6FF !important;
+  color: #2563EB !important;
+  font-size: 12px;
+  font-weight: 500 !important;
+  padding: 4px 10px;
+  border-radius: 12px;
+  margin: 0 4px 4px 0;
+  text-decoration: none !important;
+  transition: background .15s;
+}
+.mo-msg__source::before { content: '📄'; font-size: 11px; }
+.mo-msg__source:hover { background: #DBEAFE !important; }
+body[data-theme="dark"] .mo-msg__source {
+  background: rgba(107,140,255,.14) !important;
+  color: #6b8cff !important;
+}
+body[data-theme="dark"] .mo-msg__source:hover {
+  background: rgba(107,140,255,.22) !important;
+}
+
+/* 跟进按钮 */
+.mo-msg__fu {
+  display: inline-block;
+  background: transparent;
+  border: 1px solid #E5E7EB;
+  color: #6B7280;
+  font-size: 13px;
+  padding: 6px 12px;
+  border-radius: 8px;
+  margin: 0 4px 4px 0;
+  cursor: pointer;
+  transition: background .15s, color .15s, border-color .15s;
+  font-family: inherit;
+}
+.mo-msg__fu:hover {
+  background: #F9FAFB;
+  color: #1F2937;
+  border-color: #D1D5DB;
+}
+body[data-theme="dark"] .mo-msg__fu {
+  background: transparent;
+  border-color: #30363D;
+  color: #9ca3af;
+}
+body[data-theme="dark"] .mo-msg__fu:hover {
+  background: rgba(148,163,184,.08);
+  color: #e5e7eb;
+  border-color: #3f4655;
+}
+
+/* 反馈按钮 */
+.mo-msg__feedback {
+  display: flex;
+  gap: 4px;
+  margin-top: 8px;
+  justify-content: flex-end;
+}
+.mo-msg__fb {
+  width: 28px; height: 28px;
+  border: none; background: transparent;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 14px;
+  opacity: 0.5;
+  transition: background .15s, opacity .15s;
+  font-family: inherit;
+  filter: grayscale(.6);
+}
+.mo-msg__fb:hover { background: #F3F4F6; opacity: 1; }
+.mo-msg__fb.is-active { opacity: 1; filter: none; }
+body[data-theme="dark"] .mo-msg__fb:hover { background: rgba(148,163,184,.12); }
+
+/* 14g 输入区 */
+.mo-drawer__input {
+  border-top: 1px solid var(--mo-border-100);
+  padding: 10px 16px 14px;
+  background: #FFFFFF;
+  flex-shrink: 0;
+}
+body[data-theme="dark"] .mo-drawer__input {
+  background: #0f172a;
+  border-top-color: #30363D;
+}
+.mo-drawer__counter {
+  text-align: right;
+  font-size: 11px;
+  color: var(--mo-ink-400);
+  margin-bottom: 6px;
+  padding-right: 4px;
+}
+.mo-drawer__counter.is-warn .mo-drawer__counter-num {
+  color: #EF4444;
+  font-weight: 600;
+}
+.mo-drawer__input-row {
+  display: flex;
+  align-items: flex-end;
+  gap: 4px;
+  padding: 4px;
+  border: 1px solid #E5E7EB;
+  border-radius: 12px;
+  background: #FFFFFF;
+  transition: border-color .15s, box-shadow .15s;
+}
+.mo-drawer__input-row:focus-within {
+  border-color: #3B82F6;
+  box-shadow: 0 0 0 3px rgba(59,130,246,.1);
+}
+body[data-theme="dark"] .mo-drawer__input-row {
+  background: #161B22;
+  border-color: #30363D;
+}
+
+.mo-drawer__plus,
+.mo-drawer__send {
+  width: 32px; height: 32px;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  transition: background .15s, color .15s;
+  font-family: inherit;
+}
+.mo-drawer__plus {
+  background: transparent;
+  color: #9CA3AF;
+}
+.mo-drawer__plus:hover { background: #F3F4F6; color: #6B7280; }
+.mo-drawer__plus svg { width: 16px; height: 16px; }
+
+.mo-drawer__send {
+  background: #E5E7EB;
+  color: #FFFFFF;
+}
+.mo-drawer__send:not(:disabled) { background: #3B82F6; }
+.mo-drawer__send:not(:disabled):hover { background: #2563EB; }
+.mo-drawer__send:disabled { cursor: not-allowed; color: #FFFFFF; }
+.mo-drawer__send svg { width: 16px; height: 16px; }
+body[data-theme="dark"] .mo-drawer__plus:hover { background: rgba(148,163,184,.12); }
+body[data-theme="dark"] .mo-drawer__send { background: #30363D; }
+body[data-theme="dark"] .mo-drawer__send:not(:disabled) { background: #3B82F6; }
+
+.mo-drawer__input-row textarea {
+  flex: 1;
+  border: none;
+  outline: none;
+  background: transparent;
+  resize: none;
+  font-family: inherit;
+  font-size: 14px;
+  line-height: 1.4;
+  color: #1F2937;
+  padding: 7px 4px;
+  max-height: 96px;
+  min-height: 32px;
+}
+.mo-drawer__input-row textarea::placeholder { color: #9CA3AF; }
+body[data-theme="dark"] .mo-drawer__input-row textarea { color: #E6EDF3; }
+body[data-theme="dark"] .mo-drawer__input-row textarea::placeholder { color: #6E7781; }
+
+/* 14h Toast */
+.mo-toast {
+  position: fixed;
+  left: 50%;
+  bottom: 32px;
+  transform: translateX(-50%) translateY(20px);
+  background: #1F2937;
+  color: #FFFFFF;
+  padding: 8px 16px;
+  border-radius: 8px;
+  font-size: 13px;
+  z-index: 10001;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity .25s, transform .25s;
+  box-shadow: 0 8px 24px rgba(0,0,0,.2);
+}
+.mo-toast.is-visible {
+  opacity: 1;
+  transform: translateX(-50%) translateY(0);
+}
+
+@media (max-width: 640px) {
+  .mo-drawer { width: 100vw; }
+}
+
+
+/* ============================================================
+  15. 左侧导航 visited 完全重置（放在文件末尾，权重最高）
+     —— 之前的重置只锁了 color，font-weight / decoration / style
+        被外部规则（Furo .current-page>.reference{font-weight:700}
+        等）漏过来，造成"访问过的项变粗变深"假象。
+        这里把所有四态 + summary + 父级 .current 都显式锁死。
+   ============================================================ */
+.sidebar-tree a,
+.sidebar-tree a:link,
+.sidebar-tree a:visited,
+.sidebar-tree a:active,
+.bd-sidebar-primary a,
+.bd-sidebar-primary a:link,
+.bd-sidebar-primary a:visited,
+.bd-sidebar-primary a:active,
+nav.bd-links a,
+nav.bd-links a:link,
+nav.bd-links a:visited,
+nav.bd-links a:active {
+  color: #4B5563 !important;
+  font-weight: 400 !important;
+  text-decoration: none !important;
+  font-style: normal !important;
+}
+
+.sidebar-tree a:hover,
+.sidebar-tree a:visited:hover,
+.bd-sidebar-primary a:hover,
+.bd-sidebar-primary a:visited:hover,
+nav.bd-links a:hover,
+nav.bd-links a:visited:hover {
+  color: #1F2937 !important;
+  font-weight: 400 !important;
+  text-decoration: none !important;
+}
+
+.sidebar-tree a.current,
+.sidebar-tree a.current:visited,
+.sidebar-tree a.current:link,
+.bd-sidebar-primary a.current,
+.bd-sidebar-primary a.current:visited,
+.bd-sidebar-primary a.current:link,
+nav.bd-links a.current,
+nav.bd-links a.current:visited {
+  color: #2563EB !important;
+  background: #EFF6FF !important;
+  font-weight: 500 !important;
+  border-radius: 6px;
+}
+
+.sidebar-tree summary,
+.sidebar-tree summary:hover,
+.bd-sidebar-primary summary {
+  color: #4B5563 !important;
+  font-weight: 400 !important;
+}
+
+.sidebar-tree li.current > a,
+.sidebar-tree li.current > summary,
+.bd-sidebar-primary li.current > a {
+  color: #2563EB !important;
+  font-weight: 500 !important;
+}
+
+/* Furo 默认会在当前页的链接里包一个 <strong>，强制 reset 字重 */
+.sidebar-tree a strong,
+.sidebar-tree a.current strong,
+.sidebar-tree li.current > a strong {
+  font-weight: inherit !important;
+}
+
+/* 一级目录（toctree-l1）：稍粗 + 稍深，建立层级 */
+.sidebar-tree .toctree-l1 > a,
+.sidebar-tree .toctree-l1 > a:link,
+.sidebar-tree .toctree-l1 > a:visited,
+.sidebar-tree .toctree-l1 > a:active {
+  font-weight: 500 !important;
+  color: #1F2937 !important;
+}
+.sidebar-tree .toctree-l1 > a:hover,
+.sidebar-tree .toctree-l1 > a:visited:hover {
+  color: #111827 !important;
+  font-weight: 500 !important;
+}
+
+/* L1 是当前 section 的父级（有 .current 但不是 current-page）：保留稍粗 + 浅蓝色 */
+.sidebar-tree li.toctree-l1.current > a:not(.current-page),
+.sidebar-tree li.toctree-l1.current > a:not(.current-page):visited {
+  color: #2563EB !important;
+  background: transparent !important;
+  font-weight: 500 !important;
+}
+
+/* 暗色模式同步 */
+body[data-theme="dark"] .sidebar-tree a,
+body[data-theme="dark"] .sidebar-tree a:link,
+body[data-theme="dark"] .sidebar-tree a:visited,
+body[data-theme="dark"] .sidebar-tree a:active {
+  color: #94a3b8 !important;
+}
+body[data-theme="dark"] .sidebar-tree a:hover,
+body[data-theme="dark"] .sidebar-tree a:visited:hover {
+  color: #e2e8f0 !important;
+}
+body[data-theme="dark"] .sidebar-tree .toctree-l1 > a,
+body[data-theme="dark"] .sidebar-tree .toctree-l1 > a:visited {
+  color: #cbd5e1 !important;
+}
+body[data-theme="dark"] .sidebar-tree li.toctree-l1.current > a:not(.current-page) {
+  color: #6b8cff !important;
+  background: transparent !important;
+}
+body[data-theme="dark"] .sidebar-tree a.current,
+body[data-theme="dark"] .sidebar-tree a.current:visited,
+body[data-theme="dark"] .sidebar-tree li.current > a {
+  color: #6b8cff !important;
+  background: rgba(107,140,255,.12) !important;
+}
+
+
+/* ============================================================
+  16. 多列功能页脚（JS 注入到 body 末尾，全宽）
+   ============================================================ */
+.mo-footer {
+  margin-top: 80px;
+  background: #F8FAFC;
+  border-top: 1px solid #E5E7EB;
+  padding: 64px 0 32px;
+}
+.mo-footer-inner {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 32px;
+}
+.mo-footer-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 48px;
+  margin-bottom: 48px;
+}
+.mo-footer-title {
+  font-size: 13px;
+  font-weight: 600;
+  color: #111827;
+  margin: 0 0 16px;
+  letter-spacing: 0.02em;
+}
+.mo-footer-col ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+.mo-footer-col ul li { margin: 0 0 10px; }
+.mo-footer-col ul li a,
+.mo-footer-col ul li a:link,
+.mo-footer-col ul li a:visited {
+  font-size: 13px;
+  color: #6B7280 !important;
+  text-decoration: none !important;
+  transition: color 0.15s;
+}
+.mo-footer-col ul li a:hover { color: #2563EB !important; }
+
+.mo-footer-divider {
+  height: 1px;
+  background: #E5E7EB;
+  margin-bottom: 24px;
+}
+
+.mo-footer-bottom {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 16px;
+  font-size: 12px;
+  color: #9CA3AF;
+}
+.mo-footer-bottom-left {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+.mo-footer-logo {
+  height: 20px;
+  width: auto;
+  opacity: 0.7;
+  display: block;
+}
+.mo-footer-logo--dark { display: none; }
+body[data-theme="dark"] .mo-footer-logo--light { display: none; }
+body[data-theme="dark"] .mo-footer-logo--dark  { display: block; }
+
+.mo-footer-bottom-center,
+.mo-footer-bottom-right {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.mo-footer-bottom-center a,
+.mo-footer-bottom-right a,
+.mo-footer-bottom-center a:link,
+.mo-footer-bottom-right a:link,
+.mo-footer-bottom-center a:visited,
+.mo-footer-bottom-right a:visited {
+  color: #9CA3AF !important;
+  text-decoration: none !important;
+}
+.mo-footer-bottom-center a:hover,
+.mo-footer-bottom-right a:hover { color: #6B7280 !important; }
+.mo-footer-sep { color: #D1D5DB; }
+
+@media (max-width: 768px) {
+  .mo-footer { padding: 48px 0 24px; }
+  .mo-footer-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 32px;
+    margin-bottom: 32px;
+  }
+  .mo-footer-bottom {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+}
+
+/* 暗色模式 */
+body[data-theme="dark"] .mo-footer {
+  background: #0D1117;
+  border-top-color: #21262D;
+}
+body[data-theme="dark"] .mo-footer-title { color: #E6EDF3; }
+body[data-theme="dark"] .mo-footer-col ul li a,
+body[data-theme="dark"] .mo-footer-col ul li a:visited {
+  color: #8B949E !important;
+}
+body[data-theme="dark"] .mo-footer-col ul li a:hover { color: #58A6FF !important; }
+body[data-theme="dark"] .mo-footer-divider { background: #21262D; }
+body[data-theme="dark"] .mo-footer-bottom { color: #6E7681; }
+body[data-theme="dark"] .mo-footer-bottom-center a,
+body[data-theme="dark"] .mo-footer-bottom-right a,
+body[data-theme="dark"] .mo-footer-bottom-center a:visited,
+body[data-theme="dark"] .mo-footer-bottom-right a:visited {
+  color: #6E7681 !important;
+}
+body[data-theme="dark"] .mo-footer-bottom-center a:hover,
+body[data-theme="dark"] .mo-footer-bottom-right a:hover {
+  color: #8B949E !important;
+}
+body[data-theme="dark"] .mo-footer-sep { color: #30363D; }
+
+
+/* ============================================================
+  17. 右侧 TOC 下方反馈区 + GitHub 编辑链接（Databricks 风格紧凑版）
+   ============================================================ */
+.mo-sidebar-feedback {
+  margin-top: 32px;
+  padding-top: 24px;
+  border-top: 1px solid #F1F5F9;
+}
+
+.mo-sidebar-feedback-title {
+  font-size: 13px;
+  font-weight: 600;
+  color: #111827;
+  margin: 0 0 12px 0;
+  line-height: 1.5;
+}
+
+.mo-sidebar-feedback-buttons {
+  display: flex;
+  gap: 8px;
+  margin-bottom: 8px;
+}
+
+.mo-sidebar-feedback-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  flex: 1;
+  padding: 6px 10px;
+  background: #FFFFFF;
+  border: 1px solid #E5E7EB;
+  border-radius: 6px;
+  font-size: 13px;
+  font-weight: 500;
+  font-family: inherit;
+  color: #374151;
+  cursor: pointer;
+  transition: background .15s, border-color .15s, color .15s;
+}
+.mo-sidebar-feedback-btn-full {
+  width: 100%;
+  flex: none;
+}
+.mo-sidebar-feedback-btn:hover {
+  border-color: #9CA3AF;
+  background: #F9FAFB;
+}
+.mo-sidebar-feedback-btn.active {
+  border-color: #3B82F6;
+  color: #2563EB;
+  background: #EFF6FF;
+}
+.mo-sidebar-feedback-btn svg { flex-shrink: 0; }
+
+.mo-sidebar-feedback-detail { margin-top: 8px; }
+.mo-sidebar-feedback-detail textarea {
+  width: 100%;
+  min-height: 60px;
+  padding: 8px 10px;
+  border: 1px solid #E5E7EB;
+  border-radius: 6px;
+  font-size: 13px;
+  font-family: inherit;
+  line-height: 1.5;
+  color: #1F2937;
+  background: #FFFFFF;
+  resize: vertical;
+  outline: none;
+  box-sizing: border-box;
+  transition: border-color .15s, box-shadow .15s;
+}
+.mo-sidebar-feedback-detail textarea:focus {
+  border-color: #3B82F6;
+  box-shadow: 0 0 0 2px rgba(59,130,246,.1);
+}
+.mo-sidebar-feedback-detail textarea::placeholder { color: #9CA3AF; }
+
+.mo-sidebar-feedback-submit {
+  margin-top: 6px;
+  width: 100%;
+  padding: 6px 10px;
+  background: #2563EB;
+  border: 1px solid #2563EB;
+  border-radius: 6px;
+  font-size: 13px;
+  font-weight: 500;
+  font-family: inherit;
+  color: #FFFFFF;
+  cursor: pointer;
+  transition: background .15s, border-color .15s;
+}
+.mo-sidebar-feedback-submit:hover {
+  background: #1D4ED8;
+  border-color: #1D4ED8;
+}
+
+.mo-sidebar-feedback-thanks {
+  font-size: 13px;
+  font-weight: 500;
+  color: #10B981;
+  padding: 6px 0;
+}
+
+/* GitHub 编辑此页（右侧栏） */
+.mo-sidebar-edit {
+  margin-top: 24px;
+  padding-top: 16px;
+  border-top: 1px solid #F1F5F9;
+  font-size: 12px;
+}
+.mo-sidebar-edit a,
+.mo-sidebar-edit a:link,
+.mo-sidebar-edit a:visited {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  color: #6B7280 !important;
+  text-decoration: none !important;
+  transition: color .15s;
+}
+.mo-sidebar-edit a:hover { color: #2563EB !important; }
+.mo-sidebar-edit svg { flex-shrink: 0; }
+
+/* 暗色模式 */
+body[data-theme="dark"] .mo-sidebar-feedback { border-top-color: #21262D; }
+body[data-theme="dark"] .mo-sidebar-feedback-title { color: #E6EDF3; }
+body[data-theme="dark"] .mo-sidebar-feedback-btn {
+  background: #0D1117;
+  border-color: #30363D;
+  color: #C9D1D9;
+}
+body[data-theme="dark"] .mo-sidebar-feedback-btn:hover {
+  border-color: #6E7681;
+  background: #161B22;
+}
+body[data-theme="dark"] .mo-sidebar-feedback-btn.active {
+  border-color: #58A6FF;
+  color: #58A6FF;
+  background: rgba(88, 166, 255, 0.1);
+}
+body[data-theme="dark"] .mo-sidebar-feedback-detail textarea {
+  background: #0D1117;
+  border-color: #30363D;
+  color: #C9D1D9;
+}
+body[data-theme="dark"] .mo-sidebar-feedback-thanks { color: #6ee7b7; }
+body[data-theme="dark"] .mo-sidebar-edit { border-top-color: #21262D; }
+body[data-theme="dark"] .mo-sidebar-edit a,
+body[data-theme="dark"] .mo-sidebar-edit a:visited { color: #8B949E !important; }
+body[data-theme="dark"] .mo-sidebar-edit a:hover { color: #58A6FF !important; }

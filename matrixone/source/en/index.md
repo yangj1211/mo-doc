@@ -8,36 +8,52 @@ MatrixOne is an all-in-one database built for the AI era, delivering OLTP, OLAP,
 :gutter: 3
 :margin: 4 0 4 0
 
-:::{grid-item-card} 🚀 &nbsp;Quickstart
-:link: getting-started/quickstart
+:::{grid-item-card} 🚀 &nbsp;Get Started
+:link: get-started/index
 :link-type: doc
 :class-card: mo-entry-card
 
 Spin up a MatrixOne instance from scratch and run your first query end-to-end.
 :::
 
-:::{grid-item-card} 📐 &nbsp;Overview
-:link: overview/index
+:::{grid-item-card} 📐 &nbsp;Concepts
+:link: concepts/index
 :link-type: doc
 :class-card: mo-entry-card
 
-Understand MatrixOne's positioning, core features, architecture, and comparisons.
+MatrixOne's positioning, core features, architecture, comparisons, and unique designs.
+:::
+
+:::{grid-item-card} 🛠️ &nbsp;Develop
+:link: develop/index
+:link-type: doc
+:class-card: mo-entry-card
+
+Connect, model, read/write, transactions, vectors, ecosystem tools, plus 15 hands-on tutorials.
+:::
+
+:::{grid-item-card} ⚙️ &nbsp;Operate
+:link: operate/index
+:link-type: doc
+:class-card: mo-entry-card
+
+Deploy, monitor, backup, migrate, performance tuning, security, benchmarking.
 :::
 
 :::{grid-item-card} 🗄️ &nbsp;SQL Reference
-:link: sql-reference/index
+:link: reference/index
 :link-type: doc
 :class-card: mo-entry-card
 
 Complete DDL / DML / admin command syntax, parameters, and examples.
 :::
 
-:::{grid-item-card} 🧭 &nbsp;FAQ
-:link: faqs/index
+:::{grid-item-card} 🧭 &nbsp;Help
+:link: help/index
 :link-type: doc
 :class-card: mo-entry-card
 
-Deployment, product, and SQL — the most common questions, answered.
+Troubleshooting, deployment / product / SQL FAQs.
 :::
 
 :::{grid-item-card} 📦 &nbsp;Release Notes
@@ -48,34 +64,20 @@ Deployment, product, and SQL — the most common questions, answered.
 New features, optimizations, and bug fixes for every MatrixOne version.
 :::
 
-:::{grid-item-card} 💡 &nbsp;Core Concepts
-:link: concepts/data-branch
-:link-type: doc
-:class-card: mo-entry-card
-
-Go deeper into MatrixOne's unique designs — data branches, snapshots, and more.
-:::
-
 ::::
 
 ```{toctree}
 :caption: MatrixOne
 :maxdepth: 1
+:hidden:
 
 Home <self>
-About MatrixOne <overview/index>
-Quickstart <getting-started/quickstart>
+Get Started <get-started/index>
+Concepts <concepts/index>
 Develop <develop/index>
-Deploy <deploy/index>
-Maintain <maintain/index>
-Migrate <migrate/index>
-Test <test/index>
-Performance Tuning <performance-tuning/index>
-Security & Privileges <security/index>
-Reference <sql-reference/index>
-Troubleshooting <troubleshooting/faq>
-FAQ <faqs/index>
+Operate <operate/index>
+SQL Reference <reference/index>
+Help <help/index>
 Release Notes <release-notes/index>
-Glossary <glossary>
 Contribution Guide <contribution-guide/index>
 ```

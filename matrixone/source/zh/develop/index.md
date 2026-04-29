@@ -137,21 +137,21 @@ vector/cluster_centers
 :maxdepth: 2
 :caption: 应用开发示例
 
-../tutorial/develop-java-crud-demo
-../tutorial/develop-python-crud-demo
-../tutorial/springboot-hibernate-crud-demo
-../tutorial/springboot-mybatis-crud-demo
-../tutorial/sqlalchemy-python-crud-demo
-../tutorial/django-python-crud-demo
-../tutorial/develop-golang-crud-demo
-../tutorial/gorm-golang-crud-demo
-../tutorial/c-net-crud-demo
-../tutorial/typescript-crud-demo
-../tutorial/htap-demo
-../tutorial/rag-demo
-../tutorial/search-picture-demo
-../tutorial/python-sdk-demo
-../tutorial/dify-mo-demo
+tutorials/develop-java-crud-demo
+tutorials/develop-python-crud-demo
+tutorials/springboot-hibernate-crud-demo
+tutorials/springboot-mybatis-crud-demo
+tutorials/sqlalchemy-python-crud-demo
+tutorials/django-python-crud-demo
+tutorials/develop-golang-crud-demo
+tutorials/gorm-golang-crud-demo
+tutorials/c-net-crud-demo
+tutorials/typescript-crud-demo
+tutorials/htap-demo
+tutorials/rag-demo
+tutorials/search-picture-demo
+tutorials/python-sdk-demo
+tutorials/dify-mo-demo
 ```
 
 ```{toctree}

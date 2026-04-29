@@ -12,9 +12,9 @@ MatrixOne 支持连接到数据可视化工具 FineBI。本文将指导您如何
 
 - 已完成[安装 FineBI](https://help.fanruan.com/finebi/doc-view-260.html?source=5) 和 [FineBI 初始化设置](https://help.fanruan.com/finebi/doc-view-262.html)。
 
-!!! note
-    本篇文档所展示的操作示例中使用的 FineBI 版本为 Linux 6.0 版本，你可以选择安装包 Linux_unix_FineBI6_0-CN.sh。
-
+:::{note}
+本篇文档所展示的操作示例中使用的 FineBI 版本为 Linux 6.0 版本，你可以选择安装包 Linux_unix_FineBI6_0-CN.sh。
+:::
 ## 通过 FineBI 连接 MatrixOne 服务
 
 1. 登录 FineBI 后，选择**管理系统 > 数据连接 > 数据连接管理 > 新建数据连接**，如下图所示，选择 **MySQL**：
@@ -98,9 +98,9 @@ MatrixOne 支持连接到数据可视化工具 FineBI。本文将指导您如何
 
     接下来，使用以下 SQL 导入语句，将预先准备的 Demo 数据导入到 MatrixOne 数据库的相应表中。
 
-    !!! note
-        请注意，路径 `/root/data/table_name.csv` 是各表数据文件的路径，您可以参考此过程自行生成数据。
-
+    :::{note}
+    请注意，路径 `/root/data/table_name.csv` 是各表数据文件的路径，您可以参考此过程自行生成数据。
+    :::
     ```sql
     use orders;
     load data local infile '/root/data/category.csv' into table category FIELDS TERMINATED BY ',' OPTIONALLY ENCLOSED BY '"' LINES TERMINATED BY "\r\n";
