@@ -1649,6 +1649,23 @@ body[data-theme="dark"] .sd-tab-set > input:checked + .sd-tab-label {
   margin: 0;
 }
 
+/* —— intelligence 首页 hero:不要渐变巨字,改深灰中号(36px / 600 / #1F2937)—— */
+html[data-product="intelligence"] .mo-hero-title > h1 {
+  font-size: 2.25rem;     /* 36px */
+  font-weight: 600;
+  letter-spacing: -.01em;
+  background: none;
+  -webkit-background-clip: border-box;
+  background-clip: border-box;
+  color: #1F2937;
+  -webkit-text-fill-color: #1F2937;
+}
+body[data-theme="dark"] html[data-product="intelligence"] .mo-hero-title > h1,
+html[data-product="intelligence"] body[data-theme="dark"] .mo-hero-title > h1 {
+  color: #f3f4f6;
+  -webkit-text-fill-color: #f3f4f6;
+}
+
 
 /* ============================================================
   12. sphinx-design 卡片

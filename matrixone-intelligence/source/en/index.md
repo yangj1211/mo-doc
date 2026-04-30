@@ -4,72 +4,40 @@
 {.mo-subtitle}
 Data governance, document intelligence, and agent building — end-to-end from raw data to AI applications.
 
-::::{grid} 1 2 2 4
+::::{grid} 1 2 2 2
 :gutter: 3
 :margin: 4 0 4 0
 
-:::{grid-item-card} 🚀 &nbsp;Get Started
+:::{grid-item-card} Get started in 5 min
 :link: get-started/index
 :link-type: doc
 :class-card: mo-entry-card
 
-The shortest path from creating a workspace to running your first vector query.
+From creating a workspace to your first vector search — the core loop in 5 minutes.
 :::
 
-:::{grid-item-card} 📐 &nbsp;Overview
+:::{grid-item-card} Core concepts
 :link: overview/index
 :link-type: doc
 :class-card: mo-entry-card
 
-Product positioning, core capabilities, MySQL compatibility.
+Workspace, document parsing, vectorization, and retrieval augmentation overview.
 :::
 
-:::{grid-item-card} 🧠 &nbsp;Workspace
-:link: workspace/index
-:link-type: doc
-:class-card: mo-entry-card
-
-Workspace & permissions, instance, data, SQL, ops, tools.
-:::
-
-:::{grid-item-card} 🛠️ &nbsp;Develop & API
+:::{grid-item-card} API reference
 :link: develop/index
 :link-type: doc
 :class-card: mo-entry-card
 
-Workflow APIs, MCP integration, Deerflow.
+Workflow APIs, MCP integration, SDKs, and complete code samples.
 :::
 
-:::{grid-item-card} 💳 &nbsp;Billing
-:link: billing/index
-:link-type: doc
-:class-card: mo-entry-card
-
-Pricing, accounts, top-up & renewal, bills and coupons.
-:::
-
-:::{grid-item-card} 📚 &nbsp;Reference
-:link: reference/index
-:link-type: doc
-:class-card: mo-entry-card
-
-Data types, SQL syntax, functions and operators, variables and system tables.
-:::
-
-:::{grid-item-card} 🧭 &nbsp;Help
+:::{grid-item-card} FAQ
 :link: help/index
 :link-type: doc
 :class-card: mo-entry-card
 
-FAQs, technical support, glossary, agreements.
-:::
-
-:::{grid-item-card} 📦 &nbsp;Release Notes
-:link: release-notes/index
-:link-type: doc
-:class-card: mo-entry-card
-
-Year-by-year archive of version changes.
+Technical support, troubleshooting, glossary, and platform agreements.
 :::
 
 ::::
@@ -88,9 +56,4 @@ Billing <billing/index>
 Reference <reference/index>
 Help <help/index>
 Release Notes <release-notes/index>
-```
-
-```{note}
-This English site is in active translation. The Workspace section will land soon —
-use the language switch to read it in 中文 in the meantime.
 ```
